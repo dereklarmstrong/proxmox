@@ -13,7 +13,7 @@ Run the following command turn off the license warning message and install `dark
 
 > Download and Run community_setup.sh
 ```bash
-wget https://raw.githubusercontent.com/dereklarmstrong/proxmox/main/community_setup.sh
+wget https://raw.githubusercontent.com/dereklarmstrong/proxmox/main/scripts/community_setup.sh
 bash community_setup.sh
 ```
 
@@ -23,7 +23,7 @@ You can use the following command to help setup a cloud init deployment image
 > Download and run setup help for the first cloud init image
 
 ```bash
-wget https://raw.githubusercontent.com/dereklarmstrong/proxmox/main/setup_cloud_init_image.sh
+wget https://raw.githubusercontent.com/dereklarmstrong/proxmox/main/scripts/setup_cloud_init_image.sh
 bash setup_cloud_init_image.sh -h
 ```
 
@@ -35,6 +35,10 @@ This is a work in progress and is not complete
 > use at your own risk
 
 ```bash
-wget https://raw.githubusercontent.com/dereklarmstrong/proxmox/main/default_setup.sh
+wget https://raw.githubusercontent.com/dereklarmstrong/proxmox/main/scripts/default_setup.sh
 bash default_setup.sh
 ```
+
+
+# Proxmox API Documentation with GUI Exploration 
+https://pve.proxmox.com/pve-docs/api-viewer/index.html
