@@ -92,14 +92,14 @@ while getopts "n:s:d:u:p:k:h" opt; do
       exit 1
     fi
     ;;
-    u) user="$OPTARG"
-    if [[ -z "$user" ]]; then
+    u) image_user="$OPTARG"
+    if [[ -z "$image_user" ]]; then
       echo "Error: user cannot be empty"
       exit 1
     fi
     ;;
-    p) password="$OPTARG"
-    if [[ -z "$password" ]]; then
+    p) image_password="$OPTARG"
+    if [[ -z "$image_password" ]]; then
       echo "Error: password cannot be empty"
       exit 1
     fi
@@ -221,8 +221,8 @@ fi
 
 # If a user was specified, set the user
 echo "Setting user to $image_user"
-if [ ! -z "$user" ]; then
-    qm set $image_id --ciuser $user
+if [ ! -z "$image_user" ]; then
+    qm set $image_id --ciuser $image_user
     if [ $? -ne 0 ]; then
         echo "Failed to set user to $image_user"
         exit 1
@@ -231,9 +231,9 @@ fi
 
 # If a password was specified, set the password
 echo "Setting password to default password"
-if [ ! -z "$password" ]; then
+if [ ! -z "$image_password" ]; then
     echo "Setting password to provided password"
-    qm set $image_id --cipassword $password
+    qm set $image_id --cipassword $image_password
     if [ $? -ne 0 ]; then
         echo "Failed to set password to $image_password"
         exit 1
