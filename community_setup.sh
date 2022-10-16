@@ -1,15 +1,41 @@
-# Author: Docmeir
-# Date: 2022/04/10
+# Author: Derek Armstrong
+# Date: 2022-10-15
+# Version: 0.1
+# Description: This script will setup a new Proxmox VE server
+# GitHub: https://github.com/dereklarmstrong/proxmox
 
+# This sets up the basic configs from a base proxmox install
+# this is a work in progress and is not complete
+# use at your own risk
 
-# this sets up the basic configs from a base proxmox install to the free community version
+# Example usage:
+# bash community_setup.sh
 
+# setup help argument
+usage = "-------------------------------
+usage: community_setup.sh
+-------------------------------
+"
 
-# turn off license warning
+# Parse arguments
+while getopts "h" opt; do
+  case $opt in
+    h) echo "$usage"
+       exit 0
+    ;;
+    \?) echo "Invalid option -$OPTARG" >&2
+    ;;
+  esac
+done
+
+# remove the license warning from the web interface
+echo "Removing the license warning from the web interface"
 cd /usr/share/javascript/proxmox-widget-toolkit/
+# backup the original file
 cp proxmoxlib.js proxmoxlib.js.bak
-# TODO: need to find another way of replacing this as it occurs multiple times
-#sed '/s/"Ext.Msg.show"/void/g' -i proxmoxlib.js
+# replace only the first instance of "Ext.Msg.show" with "void"
+sed -i 's/Ext.Msg.show/void/' proxmoxlib.js
+# restart pveproxy
 systemctl restart pveproxy.service
 
 
@@ -18,9 +44,10 @@ echo "" >> /etc/apt/sources.list
 echo "# Not for production use" >> /etc/apt/sources.list
 echo "deb http://download.proxmox.com/debian buster pve-no-subscription" >> /etc/apt/sources.list
 cd /etc/apt/sources.list.d
+# backup the existing file
 cp pve-enterprise.list pve-enterprise.list.bak
-# TODO: need to find another way of replacing this as it occurs multiple times
-#sed -i '/s/deb https://enterprise.proxmox.com/debian/pve buster pve-enterprise/#deb https://enterprise.proxmox.com/debian/pve buster pve-enterprise/g' pve-enterprise.list
+# comment out the line that starts with "deb"
+sed -i 's/^deb/#deb/' pve-enterprise.list
 
 # Update the system
 $ apt update -y
