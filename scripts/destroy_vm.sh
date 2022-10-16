@@ -20,10 +20,31 @@ usage: destroy_vm.sh -i <vm_id> -h <help>
 while getopts "i:h" opt; do
   case $opt in
     i) vm_id=$OPTARG
-        # if vm_id is not integer
-        if ! [[ "$vm_id" =~ ^[0-9]+$ ]]; then
-          echo "Error: vm_id must be an integer"
-          exit 1
+        # if vm_id is a comma separated list
+        if [[ "$vm_id" =~ "," ]]; then
+          # split vm_id into array
+          IFS=',' read -r -a vm_id_array <<< "$vm_id"
+          # loop through vm_id_array
+          for vm_id in "${vm_id_array[@]}"; do
+            # if vm_id is not integer
+            if ! [[ "$vm_id" =~ ^[0-9]+$ ]]; then
+              echo "Error: vm_id must be an integer"
+              exit 1
+            fi
+          done
+        fi
+        # if vm_id is a space separated list
+        if [[ "$vm_id" =~ " " ]]; then
+          # split vm_id into array
+          IFS=' ' read -r -a vm_id_array <<< "$vm_id"
+          # loop through vm_id_array
+          for vm_id in "${vm_id_array[@]}"; do
+            # if vm_id is not integer
+            if ! [[ "$vm_id" =~ ^[0-9]+$ ]]; then
+              echo "Error: vm_id must be an integer"
+              exit 1
+            fi
+          done
         fi
         ;;
     h) echo "$usage"
@@ -41,18 +62,20 @@ if [ -z "$vm_id" ]; then
   exit 1
 fi
 
-# if vm_id contains "," then split into array and loop through array
-if [[ "$vm_id" == *","* ]]; then
-  IFS=',' read -ra vm_id_array <<< "$vm_id"
-  for vm_id in "${vm_id_array[@]}"; do
-    # destroy vm
-    echo "Destroying VM $vm_id"
-    qm stop $vm_id
-    qm destroy $vm_id
-  done
-else
-  # destroy vm
+# loop through vm_id_array and destroy VMs
+for vm_id in "${vm_id_array[@]}"; do
+  # destroy VM
   echo "Destroying VM $vm_id"
-  qm stop $vm_id
+  # if VM is running stop it
+  if [ "$(qm status $vm_id | grep running)" ]; then
+      echo "Stopping VM $vm_id"
+      qm stop $vm_id
+  fi
   qm destroy $vm_id
-fi
+  if [ $? -eq 0 ]; then
+    echo "VM $vm_id destroyed"
+  else
+    echo "Error: VM $vm_id not destroyed"
+    exit 1
+  fi
+done
