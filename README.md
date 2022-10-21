@@ -24,7 +24,7 @@ You can use the following command to help setup a cloud init deployment image
 
 ```bash
 wget https://raw.githubusercontent.com/dereklarmstrong/proxmox/main/scripts/setup_cloud_init_image.sh
-bash setup_cloud_init_image.sh -h
+bash setup_cloud_init_image.sh
 ```
 
 # Personal Default Setup
