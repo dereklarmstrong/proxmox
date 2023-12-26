@@ -1,3 +1,6 @@
+### NOTE
+Most of this has been included in Proxmox 8.1 and above.  Even Dark Mode.
+
 # Proxmox - Community Version Setup
 
 [Proxmox](https://www.proxmox.com/en/) is a Open Source Alternative to popular hypervisors such as VMWare and Hyper-V.
