@@ -17,7 +17,7 @@ cp config.example.sh config.sh   # adjust values as needed
 ### Scripts Overview
 - Setup: [scripts/setup/pve_community_repo.sh](scripts/setup/pve_community_repo.sh) — enable no-subscription repo, disable enterprise list.
 - VM templates & cloning:
-	- [scripts/vm/create_cloud_init_template.sh](scripts/vm/create_cloud_init_template.sh) — create a cloud-init template (defaults to Ubuntu 24.04).
+	- [scripts/vm/create_cloud_init_template.sh](scripts/vm/create_cloud_init_template.sh) — create a cloud-init template (Ubuntu/Oracle Linux presets with checksum verification).
 	- [scripts/vm/clone_vm.sh](scripts/vm/clone_vm.sh) — full clone with optional static IP and SSH key.
 	- [scripts/vm/destroy_vm.sh](scripts/vm/destroy_vm.sh) — destroy one or more VMs.
 - Containers:
@@ -41,7 +41,8 @@ Key settings: `DEFAULT_STORAGE`, `DEFAULT_BRIDGE`, `SSH_KEY_PATH`, `TEMPLATE_ID_
 
 ### Usage Examples
 - Enable community repo: `bash scripts/setup/pve_community_repo.sh`
-- Create Ubuntu 24.04 cloud-init template: `bash scripts/vm/create_cloud_init_template.sh -i 9000 -n ubuntu-24.04`
+- Create Ubuntu 24.04 cloud-init template (provide SHA256 or use --no-verify): `bash scripts/vm/create_cloud_init_template.sh -i 9000 --sha256 <ubuntu_image_sha>`
+- Create Oracle Linux 9 cloud-init template (preset + checksum): `bash scripts/vm/create_cloud_init_template.sh -i 9100 --os ol9 --sha256 415274f04015112eeb972ed8a4e6941cb71df0318c4acba5a760931b7d7c0c69`
 - Clone VM with static IP: `bash scripts/vm/clone_vm.sh -s 9000 -d 110 -n web01 -i 192.168.1.110/24 -g 192.168.1.1`
 - Create LXC container: `bash scripts/containers/create_container.sh -i 200 -n util01 -t local:vztmpl/debian-12-standard_12.0-1_amd64.tar.zst`
 - Backup everything: `bash scripts/backup/backup_all.sh`
