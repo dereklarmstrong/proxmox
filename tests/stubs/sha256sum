@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Always succeed for tests
+set -euo pipefail
+log="${CMD_LOG:-/tmp/cmd.log}"
+echo "sha256sum $*" >> "$log"
+exit 0

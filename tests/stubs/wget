@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+log="${CMD_LOG:-/tmp/cmd.log}"
+echo "wget $*" >> "$log"
+# minimal parse: expect -O <file> <url>
+outfile=""
+url=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -O) outfile="$2"; shift 2 ;;
+    *) url="$1"; shift 1 ;;
+  esac
+done
+if [[ -n "$outfile" ]]; then
+  printf 'dummy' > "$outfile"
+fi

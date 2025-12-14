@@ -7,6 +7,7 @@ General-purpose Proxmox VE utility scripts for VMs, LXC containers, backups, and
 git clone https://github.com/dereklarmstrong/proxmox.git
 cd proxmox
 cp config.example.sh config.sh   # adjust values as needed
+# Run tests (vendored bats): ./scripts/test.sh
 ```
 
 ### Prerequisites

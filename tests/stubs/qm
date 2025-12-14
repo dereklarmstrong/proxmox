@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+log="${CMD_LOG:-/tmp/cmd.log}"
+cmd="qm $*"
+# Simulate qm config returning not-found
+if [[ "$1" == "config" ]]; then
+  exit 1
+fi
+echo "$cmd" >> "$log"
+exit 0
