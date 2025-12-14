@@ -22,6 +22,7 @@ bash scripts/vm/create_cloud_init_template.sh -i 9100 --os ol9 --sha256 415274f0
 bash scripts/vm/clone_vm.sh -s 9000 -d 150 -n web01 -i 192.168.1.60/24 -g 192.168.1.1
 
 # 4) (Optional) Deploy the k8s lab cluster on Oracle Linux nodes
+# Runtime: CRI-O (kube-native, Podman-friendly). Build images with Podman, run via CRI-O.
 # Edit config.k8s.sh or use the generated defaults, then:
 bash scripts/k8s/deploy_ol_k8s_cluster.sh --config config.k8s.sh
 ```
