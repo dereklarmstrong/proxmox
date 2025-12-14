@@ -1,8 +1,5 @@
 
-# CLI Cheatsheet for qm commands in proxmox
+# CLI Cheatsheet has moved
 
-# delete vm from proxmox
-```bash
-qm destroy vmID
-```
+See the expanded cheatsheet at [docs/cheatsheet.md](docs/cheatsheet.md).
 

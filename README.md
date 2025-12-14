@@ -1,47 +1,52 @@
-### NOTE
-Most of this has been included in Proxmox 8.1 and above.  Even Dark Mode.
+## Proxmox Utility Toolkit
 
-# Proxmox - Community Version Setup
+General-purpose Proxmox VE utility scripts for VMs, LXC containers, backups, and API automation. Targeted for Proxmox VE 8.x (no dark-theme hacks needed).
 
-[Proxmox](https://www.proxmox.com/en/) is a Open Source Alternative to popular hypervisors such as VMWare and Hyper-V.
- 
- This will help setup the open source community version and install a dark theme as well.
- 
-# Installation
-Follow the offical Proxmox bare metal installation guide below
-https://www.proxmox.com/en/proxmox-ve/get-started
-
-# Community Version Setup
-Run the following command turn off the license warning message and install `dark mode`
-
-> Download and Run community_setup.sh
+### Quick Start
 ```bash
-wget https://raw.githubusercontent.com/dereklarmstrong/proxmox/main/scripts/community_setup.sh
-bash community_setup.sh
+git clone https://github.com/dereklarmstrong/proxmox.git
+cd proxmox
+cp config.example.sh config.sh   # adjust values as needed
 ```
 
-# Setting up your first cloud init image
-You can use the following command to help setup a cloud init deployment image
+### Prerequisites
+- Proxmox VE 8.x on Debian 12 (bookworm)
+- Run scripts as root on a Proxmox node
+- SSH public key on the node for cloud-init and container setups
 
-> Download and run setup help for the first cloud init image
+### Scripts Overview
+- Setup: [scripts/setup/pve_community_repo.sh](scripts/setup/pve_community_repo.sh) — enable no-subscription repo, disable enterprise list.
+- VM templates & cloning:
+	- [scripts/vm/create_cloud_init_template.sh](scripts/vm/create_cloud_init_template.sh) — create a cloud-init template (defaults to Ubuntu 24.04).
+	- [scripts/vm/clone_vm.sh](scripts/vm/clone_vm.sh) — full clone with optional static IP and SSH key.
+	- [scripts/vm/destroy_vm.sh](scripts/vm/destroy_vm.sh) — destroy one or more VMs.
+- Containers:
+	- [scripts/containers/create_container.sh](scripts/containers/create_container.sh) — create LXC from template with optional static IP.
+	- [scripts/containers/destroy_container.sh](scripts/containers/destroy_container.sh) — destroy containers.
+	- [scripts/containers/list_templates.sh](scripts/containers/list_templates.sh) — list available LXC templates.
+- Backups:
+	- [scripts/backup/backup_vm.sh](scripts/backup/backup_vm.sh) — vzdump wrapper for a single VM/CT.
+	- [scripts/backup/backup_all.sh](scripts/backup/backup_all.sh) — back up all VMs/CTs.
+	- [scripts/backup/prune_backups.sh](scripts/backup/prune_backups.sh) — prune old vzdump files by age.
+- API helpers:
+	- [scripts/api/create_api_token.sh](scripts/api/create_api_token.sh) — create an API token with a role.
+	- [scripts/api/api_request.sh](scripts/api/api_request.sh) — minimal curl wrapper using API tokens.
 
+### Configuration
+Copy the template and tweak values to your environment:
 ```bash
-wget https://raw.githubusercontent.com/dereklarmstrong/proxmox/main/scripts/setup_cloud_init_image.sh
-bash setup_cloud_init_image.sh
+cp config.example.sh config.sh
 ```
+Key settings: `DEFAULT_STORAGE`, `DEFAULT_BRIDGE`, `SSH_KEY_PATH`, `TEMPLATE_ID_START`, `BACKUP_STORAGE`, `BACKUP_RETENTION_DAYS`.
 
-# Personal Default Setup
+### Usage Examples
+- Enable community repo: `bash scripts/setup/pve_community_repo.sh`
+- Create Ubuntu 24.04 cloud-init template: `bash scripts/vm/create_cloud_init_template.sh -i 9000 -n ubuntu-24.04`
+- Clone VM with static IP: `bash scripts/vm/clone_vm.sh -s 9000 -d 110 -n web01 -i 192.168.1.110/24 -g 192.168.1.1`
+- Create LXC container: `bash scripts/containers/create_container.sh -i 200 -n util01 -t local:vztmpl/debian-12-standard_12.0-1_amd64.tar.zst`
+- Backup everything: `bash scripts/backup/backup_all.sh`
+- Prune old backups: `bash scripts/backup/prune_backups.sh -r 30`
 
-This sets up the basic configs from a base proxmox install
-This is a work in progress and is not complete
-
-> use at your own risk
-
-```bash
-wget https://raw.githubusercontent.com/dereklarmstrong/proxmox/main/scripts/default_setup.sh
-bash default_setup.sh
-```
-
-
-# Proxmox API Documentation with GUI Exploration 
-https://pve.proxmox.com/pve-docs/api-viewer/index.html
+### Documentation
+- Expanded CLI cheatsheet: [docs/cheatsheet.md](docs/cheatsheet.md)
+- Proxmox API viewer: https://pve.proxmox.com/pve-docs/api-viewer/index.html
