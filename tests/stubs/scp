@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+log="${CMD_LOG:-/tmp/cmd.log}"
+echo "scp $*" >> "$log"
+exit 0

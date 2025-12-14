@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+log="${CMD_LOG:-/tmp/cmd.log}"
+echo "ssh $*" >> "$log"
+# Simulate success
+exit 0

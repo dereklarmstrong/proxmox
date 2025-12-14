@@ -1,16 +1,36 @@
 #!/usr/bin/env bash
-# Author: Derek Armstrong
-# Date: 2022-10-15
-# Version: 1.0
-# Description: This script will download my public keys from GitHub
-# GitHub: https://github.com/dereklarmstrong/proxmox
-#
+# Download GitHub user public keys and add to authorized_keys (interactive)
 
-# This script will download my public keys from GitHub
+set -o errexit
+set -o pipefail
+set -o nounset
 
-# Download SSH Public Keys from GitHub
-curl https://github.com/dereklarmstrong.keys > ~/.ssh/github_rsa.pub
+default_user="dereklarmstrong"
+user="${1:-$default_user}"
 
-# Add SSH Public Keys to authorized_keys file
-cat ~/.ssh/github_rsa.pub >> ~/.ssh/authorized_keys
+if [ $# -eq 0 ]; then
+	echo "Usage: $(basename "$0") [github_username]" >&2
+	echo "No username provided; defaulting to $default_user. Pass a GitHub username to override." >&2
+fi
+
+read -r -p "Download SSH keys for '$user' and add to ~/.ssh/authorized_keys? [y/N]: " reply
+if [[ ! "$reply" =~ ^[Yy]$ ]]; then
+	echo "Aborted." >&2
+	exit 1
+fi
+
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+tmp_keys=$(mktemp)
+if ! curl -fsSL "https://github.com/${user}.keys" -o "$tmp_keys"; then
+	echo "Failed to download keys for ${user}" >&2
+	rm -f "$tmp_keys"
+	exit 1
+fi
+
+cat "$tmp_keys" >> ~/.ssh/authorized_keys
+rm -f "$tmp_keys"
+chmod 600 ~/.ssh/authorized_keys
+echo "Added keys for ${user} to ~/.ssh/authorized_keys"
 

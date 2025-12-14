@@ -8,3 +8,7 @@ export CMD_LOG="${TMPDIR:-/tmp}/cmd.log"
 rm -f "$CMD_LOG"
 # Ensure tests think they are root
 export REQUIRE_ROOT_BYPASS=1
+
+# Isolate HOME for tests that write ~/.ssh
+export TEST_TMP="$(mktemp -d)"
+export HOME="$TEST_TMP"
