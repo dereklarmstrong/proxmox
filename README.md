@@ -2,12 +2,28 @@
 
 General-purpose Proxmox VE utility scripts for VMs, LXC containers, backups, and API automation. Targeted for Proxmox VE 8.x (no dark-theme hacks needed).
 
-### Quick Start
+### Quick Start (homelab-friendly)
 ```bash
 git clone https://github.com/dereklarmstrong/proxmox.git
 cd proxmox
-cp config.example.sh config.sh   # adjust values as needed
-# Run tests (vendored bats): ./scripts/test.sh
+cp config.example.sh config.sh         # set bridge/storage, SSH key
+./scripts/test.sh                      # optional: run tests (vendored bats)
+
+# 1) Enable no-subscription repo on Proxmox
+bash scripts/setup/pve_community_repo.sh
+
+# 2) Build a base cloud-init template (choose one)
+# Ubuntu 24.04 (provide SHA):
+bash scripts/vm/create_cloud_init_template.sh -i 9000 --sha256 <ubuntu_sha>
+# Oracle Linux 9 preset with checksum:
+bash scripts/vm/create_cloud_init_template.sh -i 9100 --os ol9 --sha256 415274f04015112eeb972ed8a4e6941cb71df0318c4acba5a760931b7d7c0c69
+
+# 3) Clone VMs with homelab IPs (192.168.1.50-99)
+bash scripts/vm/clone_vm.sh -s 9000 -d 150 -n web01 -i 192.168.1.60/24 -g 192.168.1.1
+
+# 4) (Optional) Deploy the k8s lab cluster on Oracle Linux nodes
+# Edit config.k8s.sh or use the generated defaults, then:
+bash scripts/k8s/deploy_ol_k8s_cluster.sh --config config.k8s.sh
 ```
 
 ### Prerequisites
@@ -41,13 +57,14 @@ cp config.example.sh config.sh
 Key settings: `DEFAULT_STORAGE`, `DEFAULT_BRIDGE`, `SSH_KEY_PATH`, `TEMPLATE_ID_START`, `BACKUP_STORAGE`, `BACKUP_RETENTION_DAYS`.
 
 ### Usage Examples
-- Enable community repo: `bash scripts/setup/pve_community_repo.sh`
-- Create Ubuntu 24.04 cloud-init template (provide SHA256 or use --no-verify): `bash scripts/vm/create_cloud_init_template.sh -i 9000 --sha256 <ubuntu_image_sha>`
-- Create Oracle Linux 9 cloud-init template (preset + checksum): `bash scripts/vm/create_cloud_init_template.sh -i 9100 --os ol9 --sha256 415274f04015112eeb972ed8a4e6941cb71df0318c4acba5a760931b7d7c0c69`
-- Clone VM with static IP: `bash scripts/vm/clone_vm.sh -s 9000 -d 110 -n web01 -i 192.168.1.110/24 -g 192.168.1.1`
-- Create LXC container: `bash scripts/containers/create_container.sh -i 200 -n util01 -t local:vztmpl/debian-12-standard_12.0-1_amd64.tar.zst`
-- Backup everything: `bash scripts/backup/backup_all.sh`
-- Prune old backups: `bash scripts/backup/prune_backups.sh -r 30`
+- Community repo: `bash scripts/setup/pve_community_repo.sh`
+- Ubuntu template: `bash scripts/vm/create_cloud_init_template.sh -i 9000 --sha256 <ubuntu_sha>`
+- Oracle Linux template: `bash scripts/vm/create_cloud_init_template.sh -i 9100 --os ol9 --sha256 415274f04015112eeb972ed8a4e6941cb71df0318c4acba5a760931b7d7c0c69`
+- Clone VM (homelab IP range): `bash scripts/vm/clone_vm.sh -s 9000 -d 150 -n web01 -i 192.168.1.60/24 -g 192.168.1.1`
+- LXC container: `bash scripts/containers/create_container.sh -i 200 -n util01 -t local:vztmpl/debian-12-standard_12.0-1_amd64.tar.zst`
+- Backups: `bash scripts/backup/backup_all.sh`
+- Prune backups: `bash scripts/backup/prune_backups.sh -r 30`
+- K8s on OL (defaults from config.k8s.sh): `bash scripts/k8s/deploy_ol_k8s_cluster.sh --yes`
 
 ### Documentation
 - Expanded CLI cheatsheet: [docs/cheatsheet.md](docs/cheatsheet.md)
