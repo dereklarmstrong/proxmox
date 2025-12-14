@@ -23,6 +23,9 @@ log_warn() { echo -e "${COLOR_YELLOW}[WARN]${COLOR_RESET} $*"; }
 log_error() { echo -e "${COLOR_RED}[ERROR]${COLOR_RESET} $*" 1>&2; }
 
 require_root() {
+  if [ "${REQUIRE_ROOT_BYPASS:-0}" = "1" ]; then
+    return
+  fi
   if [ "${EUID:-$(id -u)}" -ne 0 ]; then
     log_error "This script must be run as root."
     exit 1

@@ -12,8 +12,8 @@ setup() {
   [[ "$output" == *"VMID must be numeric"* ]]
 }
 
-@test "requires checksum for preset when verification enabled" {
-  run bash scripts/vm/create_cloud_init_template.sh --os ol9 -i 9001
+@test "requires checksum when preset hash is not baked (ubuntu default)" {
+  run bash scripts/vm/create_cloud_init_template.sh -i 9001
   [ "$status" -ne 0 ]
   [[ "$output" == *"Checksum is required"* ]]
 }

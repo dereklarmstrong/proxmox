@@ -7,4 +7,4 @@ export PATH="$STUB_DIR:$PATH"
 export CMD_LOG="${TMPDIR:-/tmp}/cmd.log"
 rm -f "$CMD_LOG"
 # Ensure tests think they are root
-export EUID=0
+export REQUIRE_ROOT_BYPASS=1
