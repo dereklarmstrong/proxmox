@@ -1,5 +1,30 @@
 #!/usr/bin/env bash
-# Create a cloud-init VM template (QEMU)
+#
+# WHAT: Create a cloud-init VM template for automated VM provisioning
+# LEARNING: Cloud-init configuration, VM template creation, automated setup
+# WHEN YOU NEED: Automated VM deployment with consistent configuration
+# SIMPLER: Manual VM creation via Proxmox GUI for single VMs
+# PITFALLS: Checksum verification failures, template compatibility issues
+#
+# Enterprise Skills You'll Learn:
+# - Cloud-init automation
+# - VM template management
+# - Automated system configuration
+# - Image validation and security
+#
+# When You Actually Need This in Production:
+# - Large-scale VM deployments
+# - Consistent environment provisioning
+# - Automated testing environments
+# - CI/CD pipeline integration
+#
+# Simpler Alternative for Daily Services:
+# - Manual VM creation for one-off deployments
+# - Use Proxmox GUI for simple setups
+#
+# This is for learning. Production homelabs should prioritize simplicity.
+# Use these techniques to build skills, not because you need them for daily services.
+# Complexity = More failure points. Keep your production services simple.
 
 set -o errexit
 set -o pipefail

@@ -1,5 +1,28 @@
 #!/usr/bin/env bash
-# Configure Proxmox VE to use the no-subscription repository (8.x-friendly)
+#
+# WHAT: Configure Proxmox VE to use the no-subscription repository (8.x-friendly)
+# LEARNING: Package management, repository configuration, system updates
+# WHEN YOU NEED: Setting up Proxmox for production use without subscription
+# SIMPLER: Use default enterprise repo during evaluation period
+# PITFALLS: Breaking package management, missing dependencies
+#
+# Enterprise Skills You'll Learn:
+# - APT package management
+# - Repository configuration
+# - System update procedures
+#
+# When You Actually Need This in Production:
+# - Setting up Proxmox for production use
+# - Compliance requirements for no-subscription environments
+# - Cost-sensitive deployments
+#
+# Simpler Alternative for Daily Services:
+# - Use enterprise repo during evaluation (30 days)
+# - Manual package updates via GUI
+#
+# This is for learning. Production homelabs should prioritize simplicity.
+# Use these techniques to build skills, not because you need them for daily services.
+# Complexity = More failure points. Keep your production services simple.
 
 set -o errexit
 set -o pipefail

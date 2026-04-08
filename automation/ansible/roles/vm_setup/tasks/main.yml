@@ -1,0 +1,78 @@
+# VM Setup Role - Tasks
+#
+# WHAT: Configure VM after deployment
+# LEARNING: Ansible roles, task organization, idempotent configuration
+# WHEN YOU NEED: Consistent VM configuration across deployments
+# SIMPLER: Manual configuration for single VMs
+# PITFALLS: Role dependencies, variable scoping
+
+---
+# Install common packages
+- name: Install common packages
+  apt:
+    name:
+      - curl
+      - wget
+      - vim
+      - htop
+      - net-tools
+      - dnsutils
+    state: present
+    update_cache: true
+
+# Configure SSH
+- name: Configure SSH for security
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop:
+    - { regexp: '^PermitRootLogin', line: 'PermitRootLogin prohibit-password' }
+    - { regexp: '^PasswordAuthentication', line: 'PasswordAuthentication no' }
+    - { regexp: '^Port', line: 'Port 2222' }
+  notify: restart sshd
+
+# Create admin user
+- name: Create admin user
+  user:
+    name: admin
+    groups: sudo
+    shell: /bin/bash
+    create_home: yes
+    update_password: on_create
+
+# Configure sudo
+- name: Configure sudo for admin user
+  copy:
+    dest: /etc/sudoers.d/admin
+    content: "%admin ALL=(ALL) NOPASSWD:ALL"
+    mode: "0440"
+    validate: visudo -cf %s
+
+# Configure timezone
+- name: Configure timezone
+  timezone:
+    name: UTC
+
+# Update system
+- name: Update system packages
+  apt:
+    upgrade: dist
+    update_cache: true
+    autoremove: true
+    autoclean: true
+
+# Install monitoring agent
+- name: Install Proxmox VE agent
+  apt:
+    name:
+      - qemu-guest-agent
+    state: present
+
+# Enable and start QEMU agent
+- name: Enable QEMU guest agent
+  systemd:
+    name: qemu-guest-agent
+    enabled: true
+    state: started

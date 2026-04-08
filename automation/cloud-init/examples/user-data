@@ -1,0 +1,114 @@
+#cloud-config
+#
+# WHAT: Cloud-init user-data for automated VM initialization
+# LEARNING: Cloud-init configuration, automated setup, reproducible VMs
+# WHEN YOU NEED: Automated VM provisioning with consistent configuration
+# SIMPLER: Manual VM setup for one-off deployments
+# PITFALLS: Syntax errors, missing packages, network configuration
+
+# Set hostname
+hostname: webserver-01
+fqdn: webserver-01.example.com
+
+# Set timezone
+timezone: UTC
+
+# Configure users
+users:
+  - name: admin
+    gecos: Admin User
+    groups: sudo,adm
+    shell: /bin/bash
+    lock_passwd: false
+    password: AdminPassword123!  # Change this!
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC... your-public-key-here
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    create_home: true
+    chpasswd: { expire: False }
+
+# Package management
+packages:
+  - curl
+  - wget
+  - vim
+  - htop
+  - net-tools
+  - dnsutils
+  - unzip
+  - git
+  - build-essential
+
+# Package upgrade on first boot
+package_update: true
+package_upgrade: true
+package_chmod: true
+
+# Write files
+write_files:
+  - path: /etc/motd
+    content: |
+      Welcome to {{ hostname }}!
+      This is an automated VM.
+      For support, contact admin@example.com
+  
+  - path: /etc/profile.d/custom.sh
+    content: |
+      # Custom profile settings
+      export PS1='\u@\h:\w\$ '
+      alias ll='ls -la'
+      alias ..='cd ..'
+    permissions: '0755'
+
+  - path: /root/deploy_script.sh
+    content: |
+      #!/bin/bash
+      echo "Deployment script executed at $(date)"
+      echo "Hostname: $(hostname)"
+    permissions: '0755'
+
+# Run commands on first boot
+runcmd:
+  # Update system
+  - apt update && apt upgrade -y
+  
+  # Enable and start services
+  - systemctl enable ssh
+  - systemctl restart ssh
+  
+  # Set hostname
+  - hostnamectl set-hostname webserver-01
+  
+  # Configure firewall (UFW)
+  - ufw allow ssh
+  - ufw allow http
+  - ufw allow https
+  - ufw --force enable
+  
+  # Run custom script
+  - /root/deploy_script.sh
+  
+  # Clean cloud-init
+  - cloud-init clean --logs
+
+# Disable root login via SSH
+ssh_pwauth: false
+
+# Disable cloud-init after first boot
+# (optional - uncomment if you want to disable after first boot)
+# disable_root: true
+
+# Network configuration (optional - use Proxmox cloud-init for network)
+# network:
+#   version: 2
+#   ethernets:
+#     eth0:
+#       dhcp4: true
+#       dhcp6: true
+
+# Bootcmd (run before network configuration)
+bootcmd:
+  - echo "Cloud-init executed at $(date)" >> /var/log/cloud-init-boot.log
+
+# Final message
+final_message: "VM setup complete! Hostname: $HOSTNAME"

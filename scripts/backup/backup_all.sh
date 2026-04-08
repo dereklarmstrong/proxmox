@@ -1,5 +1,30 @@
 #!/usr/bin/env bash
-# Back up all VMs and containers
+#
+# WHAT: Back up all VMs and containers in the Proxmox cluster
+# LEARNING: Backup automation, vzdump usage, backup strategies
+# WHEN YOU NEED: Regular backup scheduling, disaster recovery preparation
+# SIMPLER: Manual backup via Proxmox GUI for single VMs
+# PITFALLS: Backup storage exhaustion, backup failures, data corruption
+#
+# Enterprise Skills You'll Learn:
+# - Backup automation
+# - vzdump backup tool
+# - Backup scheduling
+# - Disaster recovery planning
+#
+# When You Actually Need This in Production:
+# - Regular backup scheduling
+# - Compliance requirements
+# - Disaster recovery preparation
+# - Multi-VM/CT environments
+#
+# Simpler Alternative for Daily Services:
+# - Manual backup via GUI for critical VMs only
+# - Weekly backup schedule
+#
+# This is for learning. Production homelabs should prioritize simplicity.
+# Use these techniques to build skills, not because you need them for daily services.
+# Complexity = More failure points. Keep your production services simple.
 
 set -o errexit
 set -o pipefail
