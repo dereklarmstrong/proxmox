@@ -1,0 +1,79 @@
+# Ansible Playbook: Deploy VM from Template
+#
+# WHAT: Deploy VMs from Proxmox template using Ansible
+# LEARNING: Ansible playbooks, Proxmox module usage, idempotent operations
+# WHEN YOU NEED: Automated VM deployment across multiple nodes
+# SIMPLER: Manual VM creation via Proxmox GUI for single VMs
+# PITFALLS: API token permissions, template availability, network conflicts
+
+---
+- name: Deploy and configure VMs from template
+  hosts: proxmox_nodes
+  gather_facts: no
+  
+  vars:
+    # Proxmox API Configuration
+    proxmox_api_host: "192.168.1.100"
+    proxmox_api_user: "root@pam"
+    proxmox_api_token_id: "terraform"
+    proxmox_api_token_secret: "{{ lookup('env', 'PROXMOX_API_TOKEN') }}"
+    
+    # VM Configuration
+    vm_template: 9999
+    proxmox_node: "pve"
+    
+    # Network Configuration
+    default_bridge: "vmbr0"
+    gateway_ip: "192.168.1.1"
+    
+    # VM Count and Start ID
+    vm_count: 2
+    vm_start_id: 100
+
+  tasks:
+    # Deploy VMs
+    - name: Deploy VMs from template
+      proxmox_kvm:
+        api_host: "{{ proxmox_api_host }}"
+        api_user: "{{ proxmox_api_user }}"
+        api_token_id: "{{ proxmox_api_token_id }}"
+        api_token_secret: "{{ proxmox_api_token_secret }}"
+        node: "{{ proxmox_node }}"
+        name: "webserver-{{ item }}"
+        vmid: "{{ vm_start_id + item - 1 }}"
+        clone: "{{ vm_template }}"
+        full: true
+        cores: 2
+        memory: 2048
+        scsihw: "virtio-scsi-pci"
+        disk:
+          - size: 20G
+            storage: "local-lvm"
+            type: scsi
+        state: present
+      loop: "{{ range(1, vm_count + 1) | list }}"
+      register: vm_deployments
+      
+    # Start VMs after deployment
+    - name: Start VMs
+      proxmox_kvm:
+        api_host: "{{ proxmox_api_host }}"
+        api_user: "{{ proxmox_api_user }}"
+        api_token_id: "{{ proxmox_api_token_id }}"
+        api_token_secret: "{{ proxmox_api_token_secret }}"
+        node: "{{ proxmox_node }}"
+        vmid: "{{ vm_start_id + item.item - 1 }}"
+        state: started
+      loop: "{{ vm_deployments.results }}"
+      when: vm_deployments.changed
+      ignore_errors: true
+      
+    # Display deployment summary
+    - name: Display deployment summary
+      debug:
+        msg: |
+          VM Deployment Summary:
+          - Total VMs deployed: {{ vm_count }}
+          - VM IDs: {{ range(vm_start_id, vm_start_id + vm_count) | list | map('string') | join(', ') }}
+          - Template: {{ vm_template }}
+          - Node: {{ proxmox_node }}

@@ -1,5 +1,30 @@
 #!/usr/bin/env bash
-# Full clone a VM template and optionally configure network + SSH key
+#
+# WHAT: Full clone a VM template and optionally configure network + SSH key
+# LEARNING: VM cloning, network configuration, SSH key management
+# WHEN YOU NEED: Rapid VM deployment from templates
+# SIMPLER: Manual VM creation via Proxmox GUI for single VMs
+# PITFALLS: VMID conflicts, network configuration errors, SSH key issues
+#
+# Enterprise Skills You'll Learn:
+# - VM template management
+# - Network configuration automation
+# - SSH key deployment
+# - Automated provisioning
+#
+# When You Actually Need This in Production:
+# - Rapid VM deployment
+# - Consistent environment setup
+# - Automated testing environments
+# - CI/CD pipeline integration
+#
+# Simpler Alternative for Daily Services:
+# - Manual VM creation for one-off deployments
+# - Use Proxmox GUI for simple setups
+#
+# This is for learning. Production homelabs should prioritize simplicity.
+# Use these techniques to build skills, not because you need them for daily services.
+# Complexity = More failure points. Keep your production services simple.
 
 set -o errexit
 set -o pipefail
