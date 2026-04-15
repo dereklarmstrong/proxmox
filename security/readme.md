@@ -12,23 +12,23 @@ This section covers security hardening, auditing, and compliance for Proxmox env
 
 | Document | Description | Difficulty |
 |----------|-------------|------------|
-| [`SECURITY.md`](../SECURITY.md) | Security hardening guide | Intermediate |
-| [`AUDITING.md`](AUDITING.md) | Security auditing and monitoring | Advanced |
-| [`CIS_BENCHMARKS.md`](CIS_BENCHMARKS.md) | CIS benchmark compliance | Advanced |
-| [`INCIDENT_RESPONSE.md`](INCIDENT_RESPONSE.md) | Incident response procedures | Advanced |
-| [`ZERO_TRUST.md`](ZERO_TRUST.md) | Zero trust architecture | Expert |
+| [`security.md`](../security.md) | Security hardening guide | Intermediate |
+| [`auditing.md`](auditing.md) | Security auditing and monitoring | Advanced |
+| [`cis-benchmarks.md`](cis-benchmarks.md) | CIS benchmark compliance | Advanced |
+| [`incident-response.md`](incident-response.md) | Incident response procedures | Advanced |
+| [`zero-trust.md`](zero-trust.md) | Zero trust architecture | Expert |
 
 ### Quick Reference
 
-- **Getting Started**: Start with [`SECURITY.md`](../SECURITY.md)
-- **Auditing**: See [`AUDITING.md`](AUDITING.md)
-- **Compliance**: Follow [`CIS_BENCHMARKS.md`](CIS_BENCHMARKS.md)
-- **Incident Response**: See [`INCIDENT_RESPONSE.md`](INCIDENT_RESPONSE.md)
+- **Getting Started**: Start with [`security.md`](../security.md)
+- **Auditing**: See [`auditing.md`](auditing.md)
+- **Compliance**: Follow [`cis-benchmarks.md`](cis-benchmarks.md)
+- **Incident Response**: See [`incident-response.md`](incident-response.md)
 
 ## Learning Path
 
 ### Beginner
-1. SSH hardening in [`SECURITY.md`](../SECURITY.md)
+1. SSH hardening in [`security.md`](../security.md)
 2. Basic firewall rules
 3. TLS certificate management
 
@@ -38,9 +38,9 @@ This section covers security hardening, auditing, and compliance for Proxmox env
 3. Regular compliance checks
 
 ### Advanced
-1. Zero trust architecture in [`ZERO_TRUST.md`](ZERO_TRUST.md)
-2. CIS benchmark compliance in [`CIS_BENCHMARKS.md`](CIS_BENCHMARKS.md)
-3. Incident response procedures in [`INCIDENT_RESPONSE.md`](INCIDENT_RESPONSE.md)
+1. Zero trust architecture in [`zero-trust.md`](zero-trust.md)
+2. CIS benchmark compliance in [`cis-benchmarks.md`](cis-benchmarks.md)
+3. Incident response procedures in [`incident-response.md`](incident-response.md)
 
 ## Security Layers
 
@@ -88,28 +88,28 @@ This section covers security hardening, auditing, and compliance for Proxmox env
 
 ## Related Documentation
 
-- **Networking**: See [`NETWORKING/`](../NETWORKING/) for network security
-- **Backup**: See [`BACKUP/`](../BACKUP/) for backup security
-- **Services**: See [`SERVICES/`](../SERVICES/) for service hardening
+- **Networking**: See [`networking/`](../networking/) for network security
+- **Backup**: See [`backup/`](../backup/) for backup security
+- **Services**: See [`services/`](../services/) for service hardening
 
 ## Security Tools
 
 | Tool | Purpose | Documentation |
 |------|------|------|
-| Lynis | System security auditing | [`AUDITING.md`](AUDITING.md) |
-| fail2ban | Intrusion prevention | [`SECURITY.md`](../SECURITY.md) |
-| rkhunter | Rootkit detection | [`SECURITY.md`](../SECURITY.md) |
-| auditd | System auditing | [`AUDITING.md`](AUDITING.md) |
-| Wazuh | SIEM/SOAR | [`SECURITY.md`](../SECURITY.md) |
+| Lynis | System security auditing | [`auditing.md`](auditing.md) |
+| fail2ban | Intrusion prevention | [`security.md`](../security.md) |
+| rkhunter | Rootkit detection | [`security.md`](../security.md) |
+| auditd | System auditing | [`auditing.md`](auditing.md) |
+| Wazuh | SIEM/SOAR | [`security.md`](../security.md) |
 
 ## Compliance Frameworks
 
 | Framework | Requirements | Documentation |
 |------|------|------|
-| CIS Benchmarks | Security baselines | [`CIS_BENCHMARKS.md`](CIS_BENCHMARKS.md) |
-| SOC2 | Security controls | [`SECURITY.md`](../SECURITY.md) |
-| HIPAA | Healthcare data | [`SECURITY.md`](../SECURITY.md) |
-| PCI-DSS | Payment data | [`SECURITY.md`](../SECURITY.md) |
+| CIS Benchmarks | Security baselines | [`cis-benchmarks.md`](cis-benchmarks.md) |
+| SOC2 | Security controls | [`security.md`](../security.md) |
+| HIPAA | Healthcare data | [`security.md`](../security.md) |
+| PCI-DSS | Payment data | [`security.md`](../security.md) |
 
 ## Job Skill Mapping
 

@@ -8,7 +8,7 @@
 
 This guide covers comprehensive backup strategies for Proxmox environments, from basic local backups to enterprise-grade solutions.
 
-**Related Documentation**: See [`BACKUP/README.md`](BACKUP/README.md) for the complete backup documentation index.
+**Related Documentation**: See [`backup/readme.md`](backup/readme.md) for the complete backup documentation index.
 
 ---
 
@@ -568,11 +568,11 @@ chmod +x /root/monitor_backups.sh
 
 ## Related Documentation
 
-- **Restore Procedures**: See [`BACKUP/RESTORE_PROCEDURES.md`](BACKUP/RESTORE_PROCEDURES.md)
-- **GFS Strategy**: See [`BACKUP/GFS_STRATEGY.md`](BACKUP/GFS_STRATEGY.md)
-- **PBS Setup**: See [`BACKUP/PBS_SETUP.md`](BACKUP/PBS_SETUP.md)
-- **Backup Verification**: See [`BACKUP/VERIFICATION.md`](BACKUP/VERIFICATION.md)
-- **Storage Strategy**: See [`docs/storage_strategy.md`](docs/storage_strategy.md)
+- **Restore Procedures**: See [`backup/restore-procedures.md`](backup/restore-procedures.md)
+- **GFS Strategy**: See [`backup/gfs-strategy.md`](backup/gfs-strategy.md)
+- **PBS Setup**: See [`backup/pbs-setup.md`](backup/pbs-setup.md)
+- **Backup Verification**: See [`backup/verification.md`](backup/verification.md)
+- **Storage Strategy**: See [`docs/cheatsheet.md`](docs/cheatsheet.md)
 
 ---
 

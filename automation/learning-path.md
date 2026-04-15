@@ -76,9 +76,9 @@ For most homelab users:
 - Implement idempotent configurations
 
 **Resources**:
-- [`AUTOMATION/ANSIBLE/README.md`](AUTOMATION/ANSIBLE/README.md)
-- [`AUTOMATION/ANSIBLE/playbooks/deploy_vm.yml`](AUTOMATION/ANSIBLE/playbooks/deploy_vm.yml)
-- [`AUTOMATION/ANSIBLE/roles/vm_setup/tasks/main.yml`](AUTOMATION/ANSIBLE/roles/vm_setup/tasks/main.yml)
+- [`automation/ansible/readme.md`](automation/ansible/readme.md)
+- [`automation/ansible/playbooks/deploy_vm.yml`](automation/ansible/playbooks/deploy_vm.yml)
+- [`automation/ansible/roles/vm_setup/tasks/main.yml`](automation/ansible/roles/vm_setup/tasks/main.yml)
 
 **Project**: Create an Ansible playbook that deploys and configures multiple VMs
 
@@ -101,9 +101,9 @@ For most homelab users:
 - Implement CI/CD for infrastructure
 
 **Resources**:
-- [`AUTOMATION/TERRAFORM/README.md`](AUTOMATION/TERRAFORM/README.md)
-- [`AUTOMATION/TERRAFORM/main.tf`](AUTOMATION/TERRAFORM/main.tf)
-- [`AUTOMATION/TERRAFORM/variables.tf`](AUTOMATION/TERRAFORM/variables.tf)
+- [`automation/terraform/readme.md`](automation/terraform/readme.md)
+- [`automation/terraform/main.tf`](automation/terraform/main.tf)
+- [`automation/terraform/variables.tf`](automation/terraform/variables.tf)
 
 **Project**: Create a Terraform configuration that deploys a complete infrastructure stack
 
@@ -126,8 +126,8 @@ For most homelab users:
 - Design self-healing systems
 
 **Resources**:
-- [`AUTOMATION/TERRAFORM/README.md`](AUTOMATION/TERRAFORM/README.md) - State management section
-- [`AUTOMATION/ANSIBLE/README.md`](AUTOMATION/ANSIBLE/README.md) - Role development section
+- [`automation/terraform/readme.md`](automation/terraform/readme.md) - State management section
+- [`automation/ansible/readme.md`](automation/ansible/readme.md) - Role development section
 
 **Project**: Create a complete GitOps workflow with automated testing and deployment
 

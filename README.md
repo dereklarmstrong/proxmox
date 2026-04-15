@@ -54,7 +54,7 @@ bash scripts/k8s/deploy_ol_k8s_cluster.sh --config config.k8s.sh
 
 | Category | Docs |
 |----------|------|
-| **Getting Started** | [`README.md`](README.md) • [`docs/cheatsheet.md`](docs/cheatsheet.md) • [`docs/storage_strategy.md`](docs/storage_strategy.md) |
+| **Getting Started** | [`README.md`](README.md) • [`docs/cheatsheet.md`](docs/cheatsheet.md) |
 | **Backup & Recovery** | [`backup/readme.md`](backup/readme.md) • [`backup/backup-strategy.md`](backup/backup-strategy.md) • [`backup/gfs-strategy.md`](backup/gfs-strategy.md) • [`backup/pbs-setup.md`](backup/pbs-setup.md) • [`backup/restore-procedures.md`](backup/restore-procedures.md) • [`backup/verification.md`](backup/verification.md) |
 | **GPU Passthrough** | [`gpu-passthrough/readme.md`](gpu-passthrough/readme.md) • [`gpu-passthrough/nvidia-cuda.md`](gpu-passthrough/nvidia-cuda.md) • [`gpu-passthrough/amd-rocm.md`](gpu-passthrough/amd-rocm.md) • [`gpu-passthrough/gaming.md`](gpu-passthrough/gaming.md) • [`gpu-passthrough/troubleshooting.md`](gpu-passthrough/troubleshooting.md) |
 | **Networking** | [`networking/readme.md`](networking/readme.md) • [`networking/vlan-setup.md`](networking/vlan-setup.md) • [`networking/firewall-rules.md`](networking/firewall-rules.md) • [`networking/sdn-guide.md`](networking/sdn-guide.md) |

@@ -47,4 +47,4 @@ for id in "${ids[@]}"; do
   log_info "Destroying VM $id"
   qm destroy "$id"
   log_info "Destroyed VM $id"
-fi
+done

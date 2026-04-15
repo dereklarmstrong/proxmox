@@ -47,7 +47,7 @@ This section covers comprehensive backup and disaster recovery strategies for Pr
 
 ## Related Documentation
 
-- **Storage**: See [`docs/storage_strategy.md`](../docs/storage_strategy.md) for storage type comparisons
+- **Storage**: See [`docs/cheatsheet.md`](../docs/cheatsheet.md) for storage configuration tips
 - **Automation**: See [`automation/`](../automation/) for backup automation scripts
 - **Security**: See [`security.md`](../security.md) for backup encryption
 
@@ -113,7 +113,7 @@ The following scripts are available for backup automation:
 | [`automation/readme.md`](../automation/readme.md) | Schedule backup scripts via cron |
 | [`security/readme.md`](../security/readme.md) | Backup encryption and key management |
 | [`networking/readme.md`](../networking/readme.md) | Backup network considerations |
-| [`storage/readme.md`](../docs/storage_strategy.md) | Storage type selection for backups |
+| [`storage/readme.md`](../scripts/storage/readme.md) | Storage type selection for backups |
 
 ---
 

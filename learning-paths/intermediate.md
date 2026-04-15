@@ -51,8 +51,8 @@ For most homelab users:
 
 ### Resources
 
-- [NETWORKING/VLAN_SETUP.md](NETWORKING/VLAN_SETUP.md)
-- [NETWORKING/FIREWALL_RULES.md](NETWORKING/FIREWALL_RULES.md)
+- [networking/vlan-setup.md](networking/vlan-setup.md)
+- [networking/firewall-rules.md](networking/firewall-rules.md)
 
 ### Hands-On Exercises
 
@@ -132,9 +132,9 @@ pvesh create /firewall/rules \
 
 ### Resources
 
-- [BACKUP/PBS_SETUP.md](BACKUP/PBS_SETUP.md)
-- [BACKUP/GFS_STRATEGY.md](BACKUP/GFS_STRATEGY.md)
-- [BACKUP/RESTORE_PROCEDURES.md](BACKUP/RESTORE_PROCEDURES.md)
+- [backup/pbs-setup.md](backup/pbs-setup.md)
+- [backup/gfs-strategy.md](backup/gfs-strategy.md)
+- [backup/restore-procedures.md](backup/restore-procedures.md)
 
 ### Hands-On Exercises
 
@@ -300,8 +300,8 @@ chmod +x /root/monitor_system.sh
 
 ### Resources
 
-- [SERVICES/CONTAINER_PATTERNS.md](SERVICES/CONTAINER_PATTERNS.md)
-- [SERVICES/SERVICE_DEPLOYMENTS.md](SERVICES/SERVICE_DEPLOYMENTS.md)
+- [services/container-patterns.md](services/container-patterns.md)
+- [services/service-deployments.md](services/service-deployments.md)
 
 ### Hands-On Exercises
 

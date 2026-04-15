@@ -62,7 +62,7 @@ cat /sys/class/drm/card0/device/uevent | grep DRM_DRIVER
 
 ### VM Requirements
 
-- GPU passthrough configured (see [GPU_PASSTHROUGH/README.md](GPU_PASSTHROUGH/README.md))
+- GPU passthrough configured (see [gpu-passthrough/readme.md](gpu-passthrough/readme.md))
 - At least 8GB RAM recommended
 - 50GB+ storage for ROCm toolkit and libraries
 

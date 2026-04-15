@@ -67,13 +67,13 @@ tls_insecure      = true
 webserver_count   = 2
 webserver_cores   = 2
 webserver_memory  = 2048
-webserver_disk    = 20
+webserver_disk_size = 20
 
 # Database
 database_count    = 1
 database_cores    = 4
 database_memory   = 8192
-database_disk     = 100
+database_disk_size = 100
 
 # Containers
 container_count   = 2

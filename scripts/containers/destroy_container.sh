@@ -45,4 +45,4 @@ for id in "${ids[@]}"; do
   log_info "Destroying CT $id"
   pct destroy "$id"
   log_info "Destroyed CT $id"
-fi
+done

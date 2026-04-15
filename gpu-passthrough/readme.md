@@ -12,18 +12,18 @@ This section covers GPU passthrough configuration for Proxmox, enabling near-nat
 
 | Document | Description | Difficulty |
 |----------|-------------|------------|
-| [`README.md`](README.md) | GPU passthrough fundamentals and IOMMU configuration | Intermediate |
-| [`NVIDIA_CUDA.md`](NVIDIA_CUDA.md) | CUDA setup for AI/ML workloads | Advanced |
-| [`AMD_ROCM.md`](AMD_ROCM.md) | ROCm setup for AMD GPU computing | Advanced |
-| [`GAMING.md`](GAMING.md) | Windows gaming VM configuration | Intermediate |
-| [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) | Common issues and debugging | All levels |
+| [`readme.md`](readme.md) | GPU passthrough fundamentals and IOMMU configuration | Intermediate |
+| [`nvidia-cuda.md`](nvidia-cuda.md) | CUDA setup for AI/ML workloads | Advanced |
+| [`amd-rocm.md`](amd-rocm.md) | ROCm setup for AMD GPU computing | Advanced |
+| [`gaming.md`](gaming.md) | Windows gaming VM configuration | Intermediate |
+| [`troubleshooting.md`](troubleshooting.md) | Common issues and debugging | All levels |
 
 ### Quick Reference
 
-- **Getting Started**: Start with the main [`README.md`](README.md)
-- **AI/ML Workloads**: Follow [`NVIDIA_CUDA.md`](NVIDIA_CUDA.md) or [`AMD_ROCM.md`](AMD_ROCM.md)
-- **Gaming Setup**: See [`GAMING.md`](GAMING.md)
-- **Issues**: Check [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md)
+- **Getting Started**: Start with the main [`readme.md`](readme.md)
+- **AI/ML Workloads**: Follow [`nvidia-cuda.md`](nvidia-cuda.md) or [`amd-rocm.md`](amd-rocm.md)
+- **Gaming Setup**: See [`gaming.md`](gaming.md)
+- **Issues**: Check [`troubleshooting.md`](troubleshooting.md)
 
 ## Use Cases
 
@@ -31,14 +31,14 @@ This section covers GPU passthrough configuration for Proxmox, enabling near-nat
 - Near-native performance for Windows gaming
 - DirectX and Vulkan support
 - Low latency for competitive gaming
-- See: [`GAMING.md`](GAMING.md)
+- See: [`gaming.md`](gaming.md)
 
 ### AI/ML Workloads
 - CUDA for NVIDIA GPUs (machine learning)
 - ROCm for AMD GPUs (open source ML)
 - Local LLM inference and training
 - GPU-accelerated computing
-- See: [`NVIDIA_CUDA.md`](NVIDIA_CUDA.md), [`AMD_ROCM.md`](AMD_ROCM.md)
+- See: [`nvidia-cuda.md`](nvidia-cuda.md), [`amd-rocm.md`](amd-rocm.md)
 
 ## Learning Path
 
@@ -48,14 +48,14 @@ This section covers GPU passthrough configuration for Proxmox, enabling near-nat
 3. Test with simple workloads
 
 ### Intermediate
-1. Set up gaming VM in [`GAMING.md`](GAMING.md)
+1. Set up gaming VM in [`gaming.md`](gaming.md)
 2. Configure CUDA/ROCm for AI workloads
 3. Optimize performance settings
 
 ### Advanced
 1. Multi-GPU passthrough configurations
 2. Performance tuning and profiling
-3. Troubleshoot complex issues in [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md)
+3. Troubleshoot complex issues in [`troubleshooting.md`](troubleshooting.md)
 
 ## GPU Comparison
 
@@ -67,19 +67,19 @@ This section covers GPU passthrough configuration for Proxmox, enabling near-nat
 
 ## Related Documentation
 
-- **Networking**: See [`NETWORKING/`](../NETWORKING/) for network configuration
-- **Storage**: See [`docs/storage_strategy.md`](../docs/storage_strategy.md) for storage optimization
-- **Automation**: See [`AUTOMATION/`](../AUTOMATION/) for VM automation
+- **Networking**: See [`networking/`](../networking/) for network configuration
+- **Storage**: See [`gpu-passthrough/storage-strategy.md`](../gpu-passthrough/storage-strategy.md) for storage optimization
+- **Automation**: See [`automation/`](../automation/) for VM automation
 
 ## Common Issues
 
 | Issue | Solution |
 |------|------|
-| IOMMU not enabled | See [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) - Issue 1 |
-| VFIO module not loading | See [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) - Issue 2 |
-| Driver conflicts | See [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) - Issue 3 |
-| Black screen in VM | See [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) - Issue 5 |
-| Low performance | See [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) - Issue 6 |
+| IOMMU not enabled | See [`troubleshooting.md`](troubleshooting.md) - Issue 1 |
+| VFIO module not loading | See [`troubleshooting.md`](troubleshooting.md) - Issue 2 |
+| Driver conflicts | See [`troubleshooting.md`](troubleshooting.md) - Issue 3 |
+| Black screen in VM | See [`troubleshooting.md`](troubleshooting.md) - Issue 5 |
+| Low performance | See [`troubleshooting.md`](troubleshooting.md) - Issue 6 |
 
 ---
 

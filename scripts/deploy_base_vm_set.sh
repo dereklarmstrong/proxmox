@@ -16,7 +16,7 @@ usage: deploy_base_vm_set.sh -h <help>
 
 # Parse arguments
 while getopts "h" opt; do
-  case $opt in
+  case "$opt" in
     h) echo "$usage"
        exit 0
     ;;

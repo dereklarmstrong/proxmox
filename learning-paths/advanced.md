@@ -51,9 +51,9 @@ For most homelab users:
 
 ### Resources
 
-- [AUTOMATION/TERRAFORM/README.md](AUTOMATION/TERRAFORM/README.md)
-- [AUTOMATION/TERRAFORM/main.tf](AUTOMATION/TERRAFORM/main.tf)
-- [AUTOMATION/TERRAFORM/variables.tf](AUTOMATION/TERRAFORM/variables.tf)
+- [automation/terraform/readme.md](automation/terraform/readme.md)
+- [automation/terraform/main.tf](automation/terraform/main.tf)
+- [automation/terraform/variables.tf](automation/terraform/variables.tf)
 
 ### Hands-On Exercises
 
@@ -150,9 +150,9 @@ terraform destroy
 
 ### Resources
 
-- [AUTOMATION/ANSIBLE/README.md](AUTOMATION/ANSIBLE/README.md)
-- [AUTOMATION/ANSIBLE/playbooks/deploy_vm.yml](AUTOMATION/ANSIBLE/playbooks/deploy_vm.yml)
-- [AUTOMATION/ANSIBLE/roles/vm_setup/tasks/main.yml](AUTOMATION/ANSIBLE/roles/vm_setup/tasks/main.yml)
+- [automation/ansible/readme.md](automation/ansible/readme.md)
+- [automation/ansible/playbooks/deploy_vm.yml](automation/ansible/playbooks/deploy_vm.yml)
+- [automation/ansible/roles/vm_setup/tasks/main.yml](automation/ansible/roles/vm_setup/tasks/main.yml)
 
 ### Hands-On Exercises
 
@@ -254,10 +254,10 @@ EOF
 
 ### Resources
 
-- [GPU_PASSTHROUGH/README.md](GPU_PASSTHROUGH/README.md)
-- [GPU_PASSTHROUGH/NVIDIA_CUDA.md](GPU_PASSTHROUGH/NVIDIA_CUDA.md)
-- [GPU_PASSTHROUGH/AMD_ROCM.md](GPU_PASSTHROUGH/AMD_ROCM.md)
-- [GPU_PASSTHROUGH/TROUBLESHOOTING.md](GPU_PASSTHROUGH/TROUBLESHOOTING.md)
+- [gpu-passthrough/readme.md](gpu-passthrough/readme.md)
+- [gpu-passthrough/nvidia-cuda.md](gpu-passthrough/nvidia-cuda.md)
+- [gpu-passthrough/amd-rocm.md](gpu-passthrough/amd-rocm.md)
+- [gpu-passthrough/troubleshooting.md](gpu-passthrough/troubleshooting.md)
 
 ### Hands-On Exercises
 
@@ -338,10 +338,10 @@ update-grub
 
 ### Resources
 
-- [SECURITY/ZERO_TRUST.md](SECURITY/ZERO_TRUST.md)
-- [SECURITY/CIS_BENCHMARKS.md](SECURITY/CIS_BENCHMARKS.md)
-- [SECURITY/AUDITING.md](SECURITY/AUDITING.md)
-- [SECURITY/INCIDENT_RESPONSE.md](SECURITY/INCIDENT_RESPONSE.md)
+- [security/zero-trust.md](security/zero-trust.md)
+- [security/cis-benchmarks.md](security/cis-benchmarks.md)
+- [security/auditing.md](security/auditing.md)
+- [security/incident-response.md](security/incident-response.md)
 
 ### Hands-On Exercises
 

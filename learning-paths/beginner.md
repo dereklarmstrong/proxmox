@@ -52,7 +52,6 @@ For most homelab users:
 ### Resources
 
 - [docs/cheatsheet.md](docs/cheatsheet.md)
-- [qm_cheatsheet.md](qm_cheatsheet.md)
 
 ### Hands-On Exercises
 
@@ -101,7 +100,7 @@ pct enter 200
 
 ### Resources
 
-- [NETWORKING/VLAN_SETUP.md](NETWORKING/VLAN_SETUP.md) - Basic sections only
+- [networking/vlan-setup.md](networking/vlan-setup.md) - Basic sections only
 
 ### Hands-On Exercises
 
@@ -151,8 +150,8 @@ pvesh create /firewall/rules \
 
 ### Resources
 
-- [BACKUP_STRATEGY.md](BACKUP_STRATEGY.md) - Basic sections only
-- [BACKUP/RESTORE_PROCEDURES.md](BACKUP/RESTORE_PROCEDURES.md) - Basic restore
+- [backup/backup-strategy.md](backup/backup-strategy.md) - Basic sections only
+- [backup/restore-procedures.md](backup/restore-procedures.md) - Basic restore
 
 ### Hands-On Exercises
 
@@ -195,7 +194,7 @@ EOF
 
 ### Resources
 
-- [SECURITY.md](SECURITY.md) - Basic SSH hardening
+- [security.md](security.md) - Basic SSH hardening
 
 ### Hands-On Exercises
 
