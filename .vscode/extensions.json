@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "timonwong.shellcheck",
+    "redhat.ansible",
+    "hashicorp.terraform",
+    "editorconfig.editorconfig",
+    "bierner.markdown-mermaid",
+    "streetsidesoftware.code-spell-checker"
+  ],
+  "warnings": [],
+  "unwantedRecommendations": []
+}

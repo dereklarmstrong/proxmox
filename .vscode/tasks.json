@@ -1,0 +1,72 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run BATS Tests",
+      "type": "shell",
+      "command": "${workspaceFolder}/scripts/test.sh",
+      "problemMatcher": [],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Shellcheck All Scripts",
+      "type": "shell",
+      "command": "find ${workspaceFolder}/scripts ${workspaceFolder}/lib -name '*.sh' -exec shellcheck {} +",
+      "problemMatcher": "$shellcheck",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Terraform Format Check",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/automation/terraform && terraform fmt -check -recursive",
+      "problemMatcher": [],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Terraform Validate",
+      "type": "shell",
+      "command": "cd ${workspaceFolder}/automation/terraform && terraform validate",
+      "problemMatcher": [],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Shfmt Check All Scripts",
+      "type": "shell",
+      "command": "find ${workspaceFolder}/scripts ${workspaceFolder}/lib -name '*.sh' -exec shfmt -d -bn -i 2 {} +",
+      "problemMatcher": [],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Lint All (Shellcheck + Shfmt + Terraform)",
+      "type": "shell",
+      "command": "echo '=== Shellcheck ===' && find ${workspaceFolder}/scripts ${workspaceFolder}/lib -name '*.sh' -exec shellcheck {} + && echo '=== Terraform fmt ===' && cd ${workspaceFolder}/automation/terraform && terraform fmt -check -recursive && echo 'All checks passed!'",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    }
+  ]
+}

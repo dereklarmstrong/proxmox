@@ -1,0 +1,42 @@
+# EditorConfig: Helps maintain consistent coding styles
+# https://editorconfig.org/
+
+# Top-most EditorConfig file
+root = true
+
+# Default settings
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+# Shell scripts - 2 space tabs (matching project convention)
+[*.{sh,bats,bash}]
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+# YAML files (Ansible playbooks, cloud-init)
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Terraform files
+[*.{tf,tfvars}]
+indent_style = space
+indent_size = 2
+
+# Markdown docs
+[*.{md,markdown}]
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# JSON config files
+[*.{json,jsonc}]
+indent_style = space
+indent_size = 2
+
+# Ignore generated/downloaded files
+[*.img]
+enabled = false
