@@ -32,44 +32,6 @@ provider "proxmox" {
   pm_tls_insecure  = var.tls_insecure
 }
 
-# Variable Definitions
-#
-# WHAT: Define configurable variables for the infrastructure
-# LEARNING: Terraform variables, type constraints, defaults
-# WHEN YOU NEED: Flexible, reusable infrastructure code
-# SIMPLER: Hardcode values for single-environment use
-# PITFALLS: Sensitive data in variables, type mismatches
-
-variable "proxmox_url" {
-  description = "Proxmox VE server hostname or IP"
-  type        = string
-  sensitive   = false
-}
-
-variable "api_token_id" {
-  description = "Proxmox API token ID (e.g., root@pam!terraform)"
-  type        = string
-  sensitive   = true
-}
-
-variable "api_token_secret" {
-  description = "Proxmox API token secret"
-  type        = string
-  sensitive   = true
-}
-
-variable "tls_insecure" {
-  description = "Skip TLS verification (for self-signed certs)"
-  type        = bool
-  default     = true
-}
-
-variable "datacenter" {
-  description = "Proxmox datacenter name"
-  type        = string
-  default     = "datacenter"
-}
-
 # Node Configuration
 #
 # WHAT: Define Proxmox nodes in the cluster
@@ -290,16 +252,19 @@ resource "proxmox_lxc" "container" {
 output "webserver_ips" {
   description = "IP addresses of web servers"
   value       = proxmox_vm_qemu.webserver[*].ipconfig0
+  sensitive   = true
 }
 
 output "database_ips" {
   description = "IP addresses of database servers"
   value       = proxmox_vm_qemu.database[*].ipconfig0
+  sensitive   = true
 }
 
 output "container_ips" {
   description = "IP addresses of containers"
   value       = proxmox_lxc.container[*].network0
+  sensitive   = true
 }
 
 output "webserver_ids" {

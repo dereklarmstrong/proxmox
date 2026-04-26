@@ -154,6 +154,18 @@ variable "webserver_vlan" {
   default     = 0
 }
 
+variable "webserver_ip" {
+  description = "Static IP address for web servers"
+  type        = string
+  default     = "192.168.1.100"
+}
+
+variable "webserver_balloon" {
+  description = "Balloon memory in MB for web servers (0 to disable)"
+  type        = number
+  default     = 0
+}
+
 # =============================================================================
 # Database Server Configuration
 # =============================================================================
@@ -191,6 +203,12 @@ variable "database_vlan" {
   description = "VLAN ID for database servers (0 for no VLAN)"
   type        = number
   default     = 0
+}
+
+variable "database_ip" {
+  description = "Static IP address for database servers"
+  type        = string
+  default     = "192.168.1.200"
 }
 
 # =============================================================================

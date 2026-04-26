@@ -19,10 +19,10 @@ users:
     gecos: Admin User
     groups: sudo,adm
     shell: /bin/bash
-    lock_passwd: false
-    password: AdminPassword123!  # Change this!
+    lock_passwd: true
+    # password: "$6$rounds=656000$..."  # Use mkpasswd -m sha-512 to generate
     ssh_authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC... your-public-key-here
+      - ssh-rsa AAAAB3NzaC1yc2E... REPLACE_WITH_YOUR_KEY
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     create_home: true
     chpasswd: { expire: False }
