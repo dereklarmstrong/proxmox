@@ -131,6 +131,62 @@ systemctl restart pveproxy
 
 ---
 
+## Secret Management
+
+Proper secret management prevents credential leaks and unauthorized access.
+
+### Never Commit Secrets to Version Control
+
+- Use `config.example.sh` as a template; never commit `config.sh` or `config.k8s.sh`
+- Store API tokens, passwords, and keys in environment variables or a secrets manager
+- The `.gitignore` file blocks common secret file patterns
+
+### Pre-Commit Secret Scanning
+
+A pre-commit hook (`.husky/pre-commit`) is included to detect secrets before they are committed. It scans for:
+
+- Private keys (RSA, EC, DSA, OPENSSH)
+- Cloud provider keys (AWS, GCP, Azure)
+- GitHub/GitLab tokens
+- Proxmox API tokens
+- Bearer tokens
+
+To install: `cp .husky/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`
+
+Bypass for false positives: `git commit --no-verify`
+
+### Environment Variables for API Access
+
+Always use environment variables for Proxmox API access:
+
+```bash
+# Set in your shell profile or load from a non-committed config file
+export PVE_API_URL="https://pve.example.com:8006/api2/json"
+export PVE_TOKEN_ID="root@pve!mytoken"
+export PVE_TOKEN_SECRET="<token-value>"
+```
+
+### Recommended Secrets Managers
+
+| Tool | Use Case |
+|------|----------|
+| HashiCorp Vault | Production-grade secret storage |
+| Doppler | Developer-friendly secrets management |
+| 1Password CLI | Team-sharing secrets securely |
+| ansible-vault | Encrypted Ansible variables |
+
+### Rotating Compromised Credentials
+
+If a secret is accidentally exposed:
+
+1. Immediately revoke the token/credential
+2. Rotate all credentials that may have been exposed
+3. Review git history: `git log -p --all -S "secret_value"`
+4. Consider using [git-filter-repo](https://github.com/newren/git-filter-repo) to remove the secret from history
+5. For GitHub repos, use `git push --force-with-lease` after rewriting history (coordinate with all collaborators)
+
+---
+
 ## Security Auditing with Lynis
 
 Lynis performs system security audits and identifies vulnerabilities.

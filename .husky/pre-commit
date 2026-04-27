@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Pre-commit hook: scan for accidentally committed secrets
+# Install: cp .husky/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+set -o errexit
+
+PATTERNS=(
+    '-----BEGIN (RSA|EC|DSA|OPENSSH) PRIVATE KEY-----'
+    'AKIA[0-9A-Z]{16}'                            # AWS Access Key
+    'ghp_[0-9A-Za-z]{36}'                         # GitHub Personal Access Token
+    'gho_[0-9A-Za-z]{36}'                         # GitHub OAuth Access Token
+    'ghu_[0-9A-Za-z]{36}'                         # GitHub User-to-Server Token
+    'ghs_[0-9A-Za-z]{36}'                         # GitHub Server-to-User Token
+    'github_pat_[0-9A-Za-z_]{82}'                 # GitHub Fine-grained PAT
+    'xc[0-9A-Fa-f]{40}'                           # GitLab Personal Access Token
+    'glpat-[0-9A-Za-z_-]{20}'                     # GitLab Personal Access Token
+    'dqka-[0-9A-Za-z-]{40}'                       # GitLab Deploy Token
+    'AIO[0-9A-Z]{32}'                             # OpenAI API Key
+    'sk-[0-9a-z]{48}'                             # OpenAI Secret Key (v1)
+    '[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}'        # Generic API key pattern (broad)
+    'PVEAPIToken=[^"]+'                            # Proxmox API Token in code
+    'Bearer [A-Za-z0-9\-._~+/]+=?'               # Bearer tokens
+    'aws_secret_access_key[[:space:]]*='          # AWS Secret Key
+    'GOOGLE_APPLICATION_CREDENTIALS'               # GCP credentials path
+)
+
+# Read staged filenames safely (handles spaces/special characters)
+FOUND=0
+while IFS= read -r file; do
+    # Skip empty lines and hook files themselves
+    [ -z "$file" ] && continue
+    [[ "$file" == .husky/* ]] && continue
+
+    # Read staged content once to avoid repeated git show calls
+    content=$(git show ":$file" 2>/dev/null) || continue
+
+    # Skip binary files by checking MIME type (file --mime includes charset=)
+    mime=$(printf '%s' "$content" | file --mime - 2>/dev/null)
+    if printf '%s' "$mime" | grep -q 'charset=binary'; then
+        continue
+    fi
+
+    for pattern in "${PATTERNS[@]}"; do
+        if printf '%s' "$content" | grep -Eiq "$pattern" 2>/dev/null; then
+            echo "⚠️  Potential secret found in $file matching pattern: $pattern"
+            FOUND=1
+        fi
+    done
+done < <(git diff --cached --name-only --diff-filter=ACM 2>/dev/null || true)
+
+if [ $FOUND -eq 1 ]; then
+    echo ""
+    echo "❌ Commit blocked: potential secrets detected."
+    echo "Review the files above and ensure no real secrets are included."
+    echo "If this is a false positive, you can bypass with: git commit --no-verify"
+    exit 1
+fi
+
+exit 0
