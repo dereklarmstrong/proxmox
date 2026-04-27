@@ -11,39 +11,38 @@ PATTERNS=(
     'gho_[0-9A-Za-z]{36}'                         # GitHub OAuth Access Token
     'ghu_[0-9A-Za-z]{36}'                         # GitHub User-to-Server Token
     'ghs_[0-9A-Za-z]{36}'                         # GitHub Server-to-User Token
-    'github_pat[0-9A-Za-z_]{82}'                  # GitHub Fine-grained PAT
+    'github_pat_[0-9A-Za-z_]{82}'                 # GitHub Fine-grained PAT
     'xc[0-9A-Fa-f]{40}'                           # GitLab Personal Access Token
-    'glpat-[0-9A-Za-z\-(]{20}'                    # GitLab Personal Access Token
-    'dqka-[0-9A-Za-z\-]{40}'                      # GitLab Deploy Token
+    'glpat-[0-9A-Za-z_-]{20}'                     # GitLab Personal Access Token
+    'dqka-[0-9A-Za-z-]{40}'                       # GitLab Deploy Token
     'AIO[0-9A-Z]{32}'                             # OpenAI API Key
     'sk-[0-9a-z]{48}'                             # OpenAI Secret Key (v1)
     '[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}'        # Generic API key pattern (broad)
     'PVEAPIToken=[^"]+'                            # Proxmox API Token in code
-    'Bearer [A-Za-z0-9\-._~\+/]+=?'               # Bearer tokens
-    'aws_secret_access_key\s*='                    # AWS Secret Key
+    'Bearer [A-Za-z0-9\-._~+/]+=?'               # Bearer tokens
+    'aws_secret_access_key[[:space:]]*='          # AWS Secret Key
     'GOOGLE_APPLICATION_CREDENTIALS'               # GCP credentials path
 )
 
-FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -v '^\..*hooks/' || true)
-
-if [ -z "$FILES" ]; then
-    exit 0
-fi
-
+# Read staged filenames safely (handles spaces/special characters)
 FOUND=0
-for file in $FILES; do
-    # Skip binary files
-    if file "$file" 2>/dev/null | grep -q "binary\|data"; then
+while IFS= read -r file; do
+    # Skip empty lines and hook files themselves
+    [ -z "$file" ] && continue
+    [[ "$file" == .husky/* ]] && continue
+
+    # Skip binary files by checking the staged content in the index
+    if git show ":$file" 2>/dev/null | file --mime-type - 2>/dev/null | grep -q 'charset=binary'; then
         continue
     fi
 
     for pattern in "${PATTERNS[@]}"; do
-        if grep -Eiq "$pattern" "$file" 2>/dev/null; then
+        if git show ":$file" 2>/dev/null | grep -Eiq "$pattern"; then
             echo "⚠️  Potential secret found in $file matching pattern: $pattern"
             FOUND=1
         fi
     done
-done
+done < <(git diff --cached --name-only --diff-filter=ACM 2>/dev/null || true)
 
 if [ $FOUND -eq 1 ]; then
     echo ""

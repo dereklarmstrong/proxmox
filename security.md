@@ -171,9 +171,9 @@ export PVE_TOKEN_SECRET="<token-value>"
 | Tool | Use Case |
 |------|----------|
 | HashiCorp Vault | Production-grade secret storage |
- | Doppler | Developer-friendly secrets management |
- | 1Password CLI | Team-sharing secrets securely |
- | ansible-vault | Encrypted Ansible variables |
+| Doppler | Developer-friendly secrets management |
+| 1Password CLI | Team-sharing secrets securely |
+| ansible-vault | Encrypted Ansible variables |
 
 ### Rotating Compromised Credentials
 
