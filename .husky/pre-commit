@@ -31,13 +31,17 @@ while IFS= read -r file; do
     [ -z "$file" ] && continue
     [[ "$file" == .husky/* ]] && continue
 
-    # Skip binary files by checking the staged content in the index
-    if git show ":$file" 2>/dev/null | file --mime-type - 2>/dev/null | grep -q 'charset=binary'; then
+    # Read staged content once to avoid repeated git show calls
+    content=$(git show ":$file" 2>/dev/null) || continue
+
+    # Skip binary files by checking MIME type (file --mime includes charset=)
+    mime=$(printf '%s' "$content" | file --mime - 2>/dev/null)
+    if printf '%s' "$mime" | grep -q 'charset=binary'; then
         continue
     fi
 
     for pattern in "${PATTERNS[@]}"; do
-        if git show ":$file" 2>/dev/null | grep -Eiq "$pattern"; then
+        if printf '%s' "$content" | grep -Eiq "$pattern" 2>/dev/null; then
             echo "⚠️  Potential secret found in $file matching pattern: $pattern"
             FOUND=1
         fi

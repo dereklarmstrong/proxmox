@@ -183,7 +183,7 @@ If a secret is accidentally exposed:
 2. Rotate all credentials that may have been exposed
 3. Review git history: `git log -p --all -S "secret_value"`
 4. Consider using [git-filter-repo](https://github.com/newren/git-filter-repo) to remove the secret from history
-5. For GitHub repos, use `git push -f` after rewriting history (coordinate with all collaborators)
+5. For GitHub repos, use `git push --force-with-lease` after rewriting history (coordinate with all collaborators)
 
 ---
 
