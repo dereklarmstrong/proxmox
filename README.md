@@ -76,9 +76,15 @@ cp config.example.sh config.sh    # Edit with your settings
 
 | Script | Description |
 |--------|-------------|
-| `api_wrapper.sh` | Wrapper for Proxmox VE API calls |
-| `api_request.sh` | Execute arbitrary Proxmox API requests |
+| `api_wrapper.sh` | Full-featured Proxmox API wrapper with ticket and token auth |
+| `api_request.sh` | Minimal API caller using env vars for token auth |
 | `create_api_token.sh` | Create Proxmox API tokens with least-privilege scoping |
+
+### Kubernetes (`scripts/k8s/`)
+
+| Script | Description |
+|--------|-------------|
+| `deploy_ol_k8s_cluster.sh` | Deploy a Kubernetes cluster on Oracle Linux nodes via SSH |
 
 ## Configuration
 
@@ -134,6 +140,10 @@ proxmox/
 | [`storage_guide.md`](docs/storage_guide.md) | Storage pools, formats, optimization |
 | [`troubleshooting.md`](docs/troubleshooting.md) | Common issues and fixes |
 | [`api_reference.md`](docs/api_reference.md) | API call reference |
+| [`gpu_passthrough.md`](docs/gpu_passthrough.md) | NVIDIA CUDA and AMD ROCm GPU passthrough |
+| [`security_hardening.md`](docs/security_hardening.md) | SSH, firewall, 2FA, audit logging, CIS benchmarks |
+| [`gpu-passthrough/readme.md`](gpu-passthrough/readme.md) | GPU passthrough fundamentals, IOMMU, VFIO |
+| [`security.md`](security.md) | SSH hardening, firewall, 2FA, TLS, CIS benchmarks |
 
 ## Links
 

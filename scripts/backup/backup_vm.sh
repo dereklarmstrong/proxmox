@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 # Run vzdump for a single VM or CT
 
-set -o errexit
-set -o pipefail
-set -o nounset
+set -euo pipefail
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(cd "$SCRIPT_DIR/../.." && pwd)
