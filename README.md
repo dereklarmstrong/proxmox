@@ -82,7 +82,9 @@ Copy the example config and edit:
 cp config.example.sh config.sh
 ```
 
-Key settings: `DEFAULT_STORAGE`, `DEFAULT_BRIDGE`, `SSH_KEY_PATH`, `PROXMOX_HOST`, `PROXMOX_USER`, `PROXMOX_PASSWORD`.
+Key settings: `DEFAULT_STORAGE`, `DEFAULT_BRIDGE`, `SSH_KEY_PATH`, `PROXMOX_HOST`, `PROXMOX_USER`.
+
+> **Note:** Authentication uses API tokens or ticket-based auth — never store passwords in config files.
 
 ## Script Standards
 
