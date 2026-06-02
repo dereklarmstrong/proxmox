@@ -39,6 +39,7 @@ cp config.example.sh config.sh    # Edit with your settings
 | `clone_cloud_init.sh` | Clone a cloud-init template with static IP and SSH key |
 | `create_template.sh` | Create a cloud-init enabled VM template from disk image |
 | `snapshot_vm.sh` | Create snapshots of VMs |
+| `destroy_vm.sh` | Destroy VMs (with confirmation by default) |
 
 ### Container Management (`scripts/containers/`)
 
@@ -54,6 +55,8 @@ cp config.example.sh config.sh    # Edit with your settings
 |--------|-------------|
 | `backup_status.sh` | Check backup status with filtering and JSON output |
 | `gfs_retention.sh` | Manage GFS backup retention (daily/weekly/monthly/yearly) |
+| `backup_vm.sh` | Back up a single VM or container with configurable options |
+| `backup_all.sh` | Back up all VMs and containers (with exclusion list support) |
 
 ### Networking (`scripts/network/`)
 
@@ -67,12 +70,15 @@ cp config.example.sh config.sh    # Edit with your settings
 | Script | Description |
 |--------|-------------|
 | `cleanup_orphaned.sh` | Find and remove orphaned disk images |
+| `disk_usage.sh` | Report storage pool usage with capacity warnings |
 
 ### API (`scripts/api/`)
 
 | Script | Description |
 |--------|-------------|
 | `api_wrapper.sh` | Wrapper for Proxmox VE API calls |
+| `api_request.sh` | Execute arbitrary Proxmox API requests |
+| `create_api_token.sh` | Create Proxmox API tokens with least-privilege scoping |
 
 ## Configuration
 
@@ -113,7 +119,8 @@ proxmox/
 │   ├── backup/
 │   ├── network/
 │   ├── storage/
-│   └── api/
+│   ├── api/
+│   └── k8s/
 └── docs/
 ```
 
