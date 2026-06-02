@@ -122,10 +122,10 @@ done < <(pct list 2>/dev/null | awk 'NR>1 {print $1}')
 # Apply filters
 if [[ $output_json -eq 1 ]]; then
   echo "["
-  local first=1
+  first=1
   for i in "${!vmids[@]}"; do
     [[ $first -eq 1 ]] && first=0 || echo ","
-    local status_filter=1
+    status_filter=1
     if [[ $filter_running -eq 1 && "${statuses[$i]}" != "running" ]]; then
       status_filter=0
     fi
@@ -145,7 +145,7 @@ else
   printf "%-8s %-20s %-8s %-10s %-10s %-10s\n" "ID" "NAME" "TYPE" "STATUS" "CPU" "MEM"
   printf "%-8s %-20s %-8s %-10s %-10s %-10s\n" "--------" "--------------------" "--------" "----------" "----------" "----------"
   for i in "${!vmids[@]}"; do
-    local status_filter=1
+    status_filter=1
     if [[ $filter_running -eq 1 && "${statuses[$i]}" != "running" ]]; then
       status_filter=0
     fi

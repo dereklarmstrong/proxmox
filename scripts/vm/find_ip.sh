@@ -189,7 +189,6 @@ if [ "$SHOW_ALL" -eq 1 ]; then
     for line in "${vm_lines[@]:1}"; do
       [ -z "$line" ] && continue
       
-      local vmid name ip
       vmid=$(echo "$line" | awk '{print $1}')
       name=$(echo "$line" | awk '{print $2}')
       ip=$(get_ip_from_config "$vmid" "VM")
@@ -212,7 +211,6 @@ if [ "$SHOW_ALL" -eq 1 ]; then
     for line in "${ct_lines[@]:1}"; do
       [ -z "$line" ] && continue
       
-      local ctid name ip
       ctid=$(echo "$line" | awk '{print $1}')
       name=$(echo "$line" | awk '{print $2}')
       ip=$(get_ip_from_config "$ctid" "CT")

@@ -12,7 +12,7 @@ Bash scripts for managing Proxmox VE 8.x on Debian 12. VMs, containers, backups,
 
 ```bash
 # Clone and configure
-git clone https://git.orcafam.com/dereklarmstrong/proxmox.git
+git clone https://github.com/dereklarmstrong/proxmox.git
 cd proxmox
 cp config.example.sh config.sh    # Edit with your settings
 
@@ -39,6 +39,7 @@ cp config.example.sh config.sh    # Edit with your settings
 | `clone_cloud_init.sh` | Clone a cloud-init template with static IP and SSH key |
 | `create_template.sh` | Create a cloud-init enabled VM template from disk image |
 | `snapshot_vm.sh` | Create snapshots of VMs |
+| `destroy_vm.sh` | Destroy VMs (with confirmation by default) |
 
 ### Container Management (`scripts/containers/`)
 
@@ -54,6 +55,8 @@ cp config.example.sh config.sh    # Edit with your settings
 |--------|-------------|
 | `backup_status.sh` | Check backup status with filtering and JSON output |
 | `gfs_retention.sh` | Manage GFS backup retention (daily/weekly/monthly/yearly) |
+| `backup_vm.sh` | Back up a single VM or container with configurable options |
+| `backup_all.sh` | Back up all VMs and containers (with exclusion list support) |
 
 ### Networking (`scripts/network/`)
 
@@ -67,12 +70,15 @@ cp config.example.sh config.sh    # Edit with your settings
 | Script | Description |
 |--------|-------------|
 | `cleanup_orphaned.sh` | Find and remove orphaned disk images |
+| `disk_usage.sh` | Report storage pool usage with capacity warnings |
 
 ### API (`scripts/api/`)
 
 | Script | Description |
 |--------|-------------|
 | `api_wrapper.sh` | Wrapper for Proxmox VE API calls |
+| `api_request.sh` | Execute arbitrary Proxmox API requests |
+| `create_api_token.sh` | Create Proxmox API tokens with least-privilege scoping |
 
 ## Configuration
 
@@ -82,7 +88,9 @@ Copy the example config and edit:
 cp config.example.sh config.sh
 ```
 
-Key settings: `DEFAULT_STORAGE`, `DEFAULT_BRIDGE`, `SSH_KEY_PATH`, `PROXMOX_HOST`, `PROXMOX_USER`, `PROXMOX_PASSWORD`.
+Key settings: `DEFAULT_STORAGE`, `DEFAULT_BRIDGE`, `SSH_KEY_PATH`, `PROXMOX_HOST`, `PROXMOX_USER`.
+
+> **Note:** Authentication uses API tokens or ticket-based auth — never store passwords in config files.
 
 ## Script Standards
 
@@ -111,12 +119,25 @@ proxmox/
 │   ├── backup/
 │   ├── network/
 │   ├── storage/
-│   └── api/
+│   ├── api/
+│   └── k8s/
 └── docs/
 ```
 
+## Documentation
+
+| Doc | Topic |
+|-----|-------|
+| [`getting_started.md`](docs/getting_started.md) | Setup and first-run guide |
+| [`backup_strategy.md`](docs/backup_strategy.md) | 3-2-1 backup strategy, GFS retention, PBS setup |
+| [`network_guide.md`](docs/network_guide.md) | VLANs, bridges, firewall rules, SDN |
+| [`storage_guide.md`](docs/storage_guide.md) | Storage pools, formats, optimization |
+| [`troubleshooting.md`](docs/troubleshooting.md) | Common issues and fixes |
+| [`api_reference.md`](docs/api_reference.md) | API call reference |
+
 ## Links
 
+- [Blog: The Proxmox Utility Toolkit](https://derekarmstrong.dev/blog/proxmox-utility-toolkit/)
 - [Proxmox API Viewer](https://pve.proxmox.com/pve-docs/api-viewer/index.html)
 - [Proxmox Documentation](https://pve.proxmox.com/pve-docs/)
 - [Cloud-init Documentation](https://cloud-init.io/)

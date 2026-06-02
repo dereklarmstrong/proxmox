@@ -339,9 +339,7 @@ elif [ "$CHECK_ALL" -eq 1 ]; then
   for line in "${vm_lines[@]:1}"; do
     [ -z "$line" ] && continue
     
-    local vmid
     vmid=$(echo "$line" | awk '{print $1}')
-    local template
     template=$(get_config "$vmid" "template")
     
     if [ "$template" = "1" ]; then
