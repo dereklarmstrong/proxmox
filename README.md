@@ -12,7 +12,7 @@ Bash scripts for managing Proxmox VE 8.x on Debian 12. VMs, containers, backups,
 
 ```bash
 # Clone and configure
-git clone https://git.orcafam.com/dereklarmstrong/proxmox.git
+git clone https://github.com/dereklarmstrong/proxmox.git
 cd proxmox
 cp config.example.sh config.sh    # Edit with your settings
 
@@ -115,8 +115,20 @@ proxmox/
 └── docs/
 ```
 
+## Documentation
+
+| Doc | Topic |
+|-----|-------|
+| [`getting_started.md`](docs/getting_started.md) | Setup and first-run guide |
+| [`backup_strategy.md`](docs/backup_strategy.md) | 3-2-1 backup strategy, GFS retention, PBS setup |
+| [`network_guide.md`](docs/network_guide.md) | VLANs, bridges, firewall rules, SDN |
+| [`storage_guide.md`](docs/storage_guide.md) | Storage pools, formats, optimization |
+| [`troubleshooting.md`](docs/troubleshooting.md) | Common issues and fixes |
+| [`api_reference.md`](docs/api_reference.md) | API call reference |
+
 ## Links
 
+- [Blog: The Proxmox Utility Toolkit](https://derekarmstrong.dev/blog/proxmox-utility-toolkit/)
 - [Proxmox API Viewer](https://pve.proxmox.com/pve-docs/api-viewer/index.html)
 - [Proxmox Documentation](https://pve.proxmox.com/pve-docs/)
 - [Cloud-init Documentation](https://cloud-init.io/)

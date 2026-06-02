@@ -283,7 +283,6 @@ if command -v qm &>/dev/null; then
     for line in "${vm_lines[@]:1}"; do
       [ -z "$line" ] && continue
       
-      local vmid name
       vmid=$(echo "$line" | awk '{print $1}')
       name=$(echo "$line" | awk '{print $2}')
       
@@ -294,9 +293,7 @@ if command -v qm &>/dev/null; then
       
       ((total_vms++))
       
-      local result
       result=$(check_vm_backup "$vmid" "$BACKUP_DIR")
-      local status file age
       status=$(echo "$result" | cut -d'|' -f1)
       file=$(echo "$result" | cut -d'|' -f2)
       age=$(echo "$result" | cut -d'|' -f3)
@@ -336,7 +333,6 @@ if command -v pct &>/dev/null; then
     for line in "${ct_lines[@]:1}"; do
       [ -z "$line" ] && continue
       
-      local ctid name
       ctid=$(echo "$line" | awk '{print $1}')
       name=$(echo "$line" | awk '{print $2}')
       
@@ -347,9 +343,7 @@ if command -v pct &>/dev/null; then
       
       ((total_cts++))
       
-      local result
       result=$(check_ct_backup "$ctid" "$BACKUP_DIR")
-      local status file age
       status=$(echo "$result" | cut -d'|' -f1)
       file=$(echo "$result" | cut -d'|' -f2)
       age=$(echo "$result" | cut -d'|' -f3)
@@ -392,7 +386,7 @@ printf "    ${COLOR_RED}  MISSING:${COLOR_RESET} $missing_cts\n"
 echo ""
 
 # Issues found
-local total_issues=$((old_vms + missing_vms + old_cts + missing_cts))
+total_issues=$((old_vms + missing_vms + old_cts + missing_cts))
 if [ "$total_issues" -gt 0 ]; then
   echo -e "  ${COLOR_YELLOW}⚠ Issues found: $total_issues VMs/CTs need attention${COLOR_RESET}"
   echo ""

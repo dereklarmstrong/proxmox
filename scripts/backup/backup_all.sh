@@ -1,78 +1,164 @@
 #!/usr/bin/env bash
-#
-# WHAT: Back up all VMs and containers in the Proxmox cluster
-# LEARNING: Backup automation, vzdump usage, backup strategies
-# WHEN YOU NEED: Regular backup scheduling, disaster recovery preparation
-# SIMPLER: Manual backup via Proxmox GUI for single VMs
-# PITFALLS: Backup storage exhaustion, backup failures, data corruption
-#
-# Enterprise Skills You'll Learn:
-# - Backup automation
-# - vzdump backup tool
-# - Backup scheduling
-# - Disaster recovery planning
-#
-# When You Actually Need This in Production:
-# - Regular backup scheduling
-# - Compliance requirements
-# - Disaster recovery preparation
-# - Multi-VM/CT environments
-#
-# Simpler Alternative for Daily Services:
-# - Manual backup via GUI for critical VMs only
-# - Weekly backup schedule
-#
-# This is for learning. Production homelabs should prioritize simplicity.
-# Use these techniques to build skills, not because you need them for daily services.
-# Complexity = More failure points. Keep your production services simple.
+# Back up all VMs and containers
 
-set -o errexit
-set -o pipefail
-set -o nounset
+set -euo pipefail
 
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-REPO_ROOT=$(cd "$SCRIPT_DIR/../.." && pwd)
-# shellcheck source=../../lib/common.sh
-source "$REPO_ROOT/lib/common.sh"
-source_config
-require_root
-
-BACKUP_VM_SCRIPT="$SCRIPT_DIR/backup_vm.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/../../lib/common.sh"
 
 usage() {
   cat <<EOF
 Usage: $(basename "$0") [options]
-  -s <storage>  Target storage (default: $BACKUP_STORAGE)
-  -m <mode>     Mode: snapshot|stop|suspend (default: snapshot)
-  -c <comp>     Compression: zstd|lzo|gzip (default: zstd)
-  -h            Help
+
+Back up all VMs and containers using vzdump --all.
+
+Options:
+  --storage <store>    Target backup storage (default: $BACKUP_STORAGE)
+  --mode <mode>        Backup mode: snapshot, suspend, stop (default: snapshot)
+  --exclude <list>     Comma-separated VMID/CTIDs to exclude (e.g. 999,200)
+  --compress <alg>     Compression: zstd, gzip, lzo, none (default: zstd)
+  --dry-run            Show what would be backed up without running
+  -h, --help           Show this help
+
+Examples:
+  $(basename "$0")
+  $(basename "$0") --storage PBS --mode stop
+  $(basename "$0") --exclude 999,200 --compress gzip
 EOF
 }
 
 storage="$BACKUP_STORAGE"
 mode="snapshot"
+exclude=""
 compress="zstd"
+dry_run=0
 
-while getopts ":s:m:c:h" opt; do
-  case "$opt" in
-    s) storage="$OPTARG" ;;
-    m) mode="$OPTARG" ;;
-    c) compress="$OPTARG" ;;
-    h) usage; exit 0 ;;
-    *) usage; exit 1 ;;
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --storage)    storage="$2"; shift 2 ;;
+    --mode)       mode="$2"; shift 2 ;;
+    --exclude)    exclude="$2"; shift 2 ;;
+    --compress)   compress="$2"; shift 2 ;;
+    --dry-run)    dry_run=1; shift ;;
+    -h|--help)    usage; exit 0 ;;
+    *)            die "Unknown option: $1" ;;
   esac
 done
 
-mapfile -t vm_ids < <(qm list | awk 'NR>1 {print $1}')
-mapfile -t ct_ids < <(pct list | awk 'NR>1 {print $1}')
+# Validate mode
+case "$mode" in
+  snapshot|suspend|stop) ;;
+  *) die "Mode must be snapshot, suspend, or stop" ;;
+esac
 
-to_backup=("${vm_ids[@]}" "${ct_ids[@]}")
+# Validate compression
+case "$compress" in
+  zstd|gzip|lzo|none) ;;
+  *) die "Compression must be zstd, gzip, lzo, or none" ;;
+esac
 
-for id in "${to_backup[@]}"; do
-  [ -n "$id" ] || continue
-  log_info "Backing up ID $id"
-  "$BACKUP_VM_SCRIPT" -i "$id" -s "$storage" -m "$mode" -c "$compress"
+# Build exclude list
+exclude_args=""
+if [[ -n "$exclude" ]]; then
+  IFS=',' read -ra exclude_arr <<< "$exclude"
+  for eid in "${exclude_arr[@]}"; do
+    exclude_args+=" --exclude $eid"
+  done
+fi
 
-done
+log_info "Backup all VMs and containers"
+log_info "  Storage:  $storage"
+log_info "  Mode:     $mode"
+log_info "  Compress: $compress"
+[[ -n "$exclude" ]] && log_info "  Exclude:  $exclude"
+echo ""
 
-log_info "All backups completed"
+# Enumerate what would be backed up
+log_info "Enumerating VMs..."
+declare -a vm_list=()
+while IFS= read -r vmid; do
+  [[ -z "$vmid" ]] && continue
+  if [[ -n "$exclude" ]]; then
+    skip=0
+    IFS=',' read -ra exclude_arr <<< "$exclude"
+    for eid in "${exclude_arr[@]}"; do
+      [[ "$vmid" == "$eid" ]] && skip=1
+    done
+    [[ $skip -eq 1 ]] && continue
+  fi
+  vm_list+=("$vmid")
+done < <(qm list 2>/dev/null | awk 'NR>1 {print $1}')
+
+log_info "Enumerating containers..."
+declare -a ct_list=()
+while IFS= read -r ctid; do
+  [[ -z "$ctid" ]] && continue
+  if [[ -n "$exclude" ]]; then
+    skip=0
+    IFS=',' read -ra exclude_arr <<< "$exclude"
+    for eid in "${exclude_arr[@]}"; do
+      [[ "$ctid" == "$eid" ]] && skip=1
+    done
+    [[ $skip -eq 1 ]] && continue
+  fi
+  ct_list+=("$ctid")
+done < <(pct list 2>/dev/null | awk 'NR>1 {print $1}')
+
+total=$((${#vm_list[@]} + ${#ct_list[@]}))
+if [[ $total -eq 0 ]]; then
+  log_info "No VMs or containers to back up"
+  exit 0
+fi
+
+log_info "Found $total items to back up (${#vm_list[@]} VMs, ${#ct_list[@]} containers)"
+echo ""
+
+if [[ $dry_run -eq 1 ]]; then
+  log_info "Dry run mode - skipping actual backup"
+  echo ""
+  log_info "VMs:"
+  for v in "${vm_list[@]}"; do
+    vname=$(qm config "$v" 2>/dev/null | grep "^name:" | head -1 | sed 's/^name://' || echo "-")
+    log_info "  VM $v ($vname)"
+  done
+  echo ""
+  log_info "Containers:"
+  for c in "${ct_list[@]}"; do
+    chost=$(pct config "$c" 2>/dev/null | grep "^hostname:" | head -1 | sed 's/^hostname://' || echo "-")
+    log_info "  CT $c ($chost)"
+  done
+  exit 0
+fi
+
+# Run vzdump --all
+log_info "Starting vzdump --all..."
+vzdump_args=(--storage "$storage" --mode "$mode" --compress "$compress")
+if [[ -n "$exclude" ]]; then
+  IFS=',' read -ra exclude_arr <<< "$exclude"
+  for eid in "${exclude_arr[@]}"; do
+    vzdump_args+=(--exclude "$eid")
+  done
+fi
+
+vzdump_output=$(vzdump --all "${vzdump_args[@]}" 2>&1) || {
+  echo "$vzdump_output"
+  die "Backup failed"
+}
+
+echo ""
+log_info "=== Backup Complete ==="
+log_info "Total items: $total"
+
+# Parse summary from output
+backup_count=$(echo "$vzdump_output" | grep -cP 'INFO: backup' || true)
+log_info "Backup jobs started: $backup_count"
+
+# Show backup files created
+echo ""
+log_info "Backup files:"
+while IFS= read -r bfile; do
+  [[ -z "$bfile" ]] && continue
+  fname=$(basename "$bfile")
+  fsize=$(du -h "$bfile" | awk '{print $1}')
+  log_info "  $fname ($fsize)"
+done < <(find /var/lib/vz/dump/ -name "vzdump*" -newer /tmp/.backup_start_marker 2>/dev/null || true)
