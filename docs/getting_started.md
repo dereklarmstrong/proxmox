@@ -21,7 +21,11 @@ Edit `config.sh` with your environment settings:
 # Proxmox connection
 PROXMOX_HOST="192.168.1.3"
 PROXMOX_USER="root@pam"
-PROXMOX_PASSWORD="your_password"
+
+# API token auth (recommended)
+# Create with: pveum user token add root@pam automation --privsep 0
+PROXMOX_API_TOKEN_ID="root@pam!automation"
+PROXMOX_API_TOKEN_SECRET="your-token-secret-here"
 
 # Defaults
 DEFAULT_STORAGE="local-lvm"

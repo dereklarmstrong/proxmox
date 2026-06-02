@@ -5,6 +5,9 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/../../lib/common.sh"
+
 usage() {
   cat <<EOF
 Usage: $(basename "$0") -X <GET|POST|PUT|DELETE> -p <api_path> [-d data]

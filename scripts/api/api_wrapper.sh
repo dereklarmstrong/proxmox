@@ -23,7 +23,7 @@ Options:
   --secret <s>   API token secret
   --host <h>     Proxmox host (default: $PROXMOX_HOST)
   --user <u>     Username (default: $PROXMOX_USER)
-  --password <p> Password (default: $PROXMOX_PASSWORD)
+  --token <id>   API token ID (overrides --user/--secret)
   -h, --help     Show this help
 
 Examples:
@@ -42,7 +42,6 @@ token_id=""
 token_secret=""
 host=""
 user=""
-password=""
 
 # Parse positional args
 if [[ $# -ge 1 ]]; then
@@ -60,7 +59,6 @@ while [[ $# -gt 0 ]]; do
     --secret)   token_secret="$2"; shift 2 ;;
     --host)     host="$2"; shift 2 ;;
     --user)     user="$2"; shift 2 ;;
-    --password) password="$2"; shift 2 ;;
     -h|--help)  usage; exit 0 ;;
     *)          shift ;;
   esac
@@ -75,7 +73,6 @@ done
 # Set defaults
 host="${host:-$PROXMOX_HOST}"
 user="${user:-$PROXMOX_USER}"
-password="${password:-$PROXMOX_PASSWORD}"
 
 log_info "API Call: $method $api_path"
 [[ -n "$data" ]] && log_info "Data: $data"
