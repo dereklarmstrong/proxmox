@@ -30,7 +30,7 @@ Check Proxmox connectivity:
 
 ```bash
 # Test API
-curl -k -u root@pam https://192.168.1.3:8006/api2/json/version
+curl -k -u root@pam https://10.42.1.3:8006/api2/json/version
 
 # Check if Proxmox services are running
 systemctl status pveproxy

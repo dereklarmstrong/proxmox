@@ -31,8 +31,8 @@ Edit `/etc/network/interfaces`:
 ```
 auto vmbr0
 iface vmbr0 inet static
-    address 192.168.1.3/24
-    gateway 192.168.1.1
+    address 10.42.1.3/24
+    gateway 10.42.1.1
     bridge-ports eth0
     bridge-stp off
     bridge-fd 0

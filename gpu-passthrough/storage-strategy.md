@@ -260,7 +260,7 @@ pvesm add dir local-backup \
 
 # NFS for shared storage
 pvesm add nfs nfs-storage \
-  -server 192.168.1.200 \
+  -server 10.42.1.200 \
   -export /exports/proxmox \
   -content images,rootdir,backup
 

@@ -18,7 +18,7 @@ Usage: $(basename "$0") -s <source_vmid> -d <dest_vmid> -n <name> [options]
   -s <id>     Source template/VM ID (required)
   -d <id>     Destination VMID (required)
   -n <name>   Destination VM name (required)
-  -i <cidr>   IP address with CIDR (e.g. 192.168.1.50/24). If omitted, DHCP is used.
+  -i <cidr>   IP address with CIDR (e.g. 10.42.1.50/24). If omitted, DHCP is used.
   -g <gw>     Gateway IP (used only if -i is set). Defaults to first host in subnet.
   -b <bridge> Bridge name (default: $DEFAULT_BRIDGE)
   -k <ssh>    SSH public key path (default: $SSH_KEY_PATH)

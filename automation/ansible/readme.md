@@ -55,7 +55,7 @@ ansible-galaxy collection install community.general
 ```ini
 # inventory/proxmox.ini
 [proxmox_nodes]
-pve ansible_host=192.168.1.100
+pve ansible_host=10.42.1.100
 
 [proxmox_nodes:vars]
 ansible_user=root
@@ -110,7 +110,7 @@ ansible-playbook playbooks/deploy_vm.yml -i inventory/proxmox.ini
   
   vars:
     vm_template: 9999
-    proxmox_api_host: "192.168.1.100"
+    proxmox_api_host: "10.42.1.100"
     proxmox_api_user: "root@pam"
     proxmox_api_token_id: "terraform"
     proxmox_api_token_secret: "{{ lookup('env', 'PROXMOX_API_TOKEN') }}"
@@ -139,7 +139,7 @@ ansible-playbook playbooks/deploy_vm.yml -i inventory/proxmox.ini
         api_token_secret: "{{ proxmox_api_token_secret }}"
         node: "{{ proxmox_node }}"
         vmid: "{{ 100 + item }}"
-        net0: "bridge=vmbr0,ip=192.168.1.{{ 150 + item }}/24,gateway=192.168.1.1"
+        net0: "bridge=vmbr0,ip=10.42.1.{{ 150 + item }}/24,gateway=10.42.1.1"
       loop: [1, 2, 3]
 ```
 

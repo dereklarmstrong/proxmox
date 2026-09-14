@@ -65,7 +65,7 @@ pvesh create /cluster/network/sdn \
 # Create IPAM mode
 pvesh create /cluster/network/ipam \
   --mode dhcp \
-  --subnet 192.168.1.0/24
+  --subnet 10.42.1.0/24
 
 # Create network
 pvesh create /cluster/network/network \
@@ -131,20 +131,20 @@ Configure IPAM for automated IP assignment.
 # Create IPAM mode
 pvesh create /cluster/network/ipam \
   --mode manual \
-  --subnet 192.168.1.0/24 \
+  --subnet 10.42.1.0/24 \
   --name ipam-manual
 
 # Create IPAM mode with DHCP
 pvesh create /cluster/network/ipam \
   --mode dhcp \
-  --subnet 192.168.1.0/24 \
+  --subnet 10.42.1.0/24 \
   --name ipam-dhcp
 
 # Create IPAM mode with static range
 pvesh create /cluster/network/ipam \
   --mode static \
-  --subnet 192.168.1.0/24 \
-  --range 192.168.1.100-192.168.1.200 \
+  --subnet 10.42.1.0/24 \
+  --range 10.42.1.100-10.42.1.200 \
   --name ipam-static
 
 # Assign IPAM to network
@@ -152,7 +152,7 @@ pvesh create /cluster/network/network \
   --name vmbr0 \
   --type bridge \
   --ipam-mode static \
-  --ipam-range 192.168.1.100-192.168.1.200
+  --ipam-range 10.42.1.100-10.42.1.200
 ```
 
 > **⚠️ PITFALL**: IP conflicts, DHCP issues.
@@ -177,7 +177,7 @@ pvesh create /cluster/network/network \
   --scheme vlan-scheme \
   --vlan-id 10 \
   --ipam-mode static \
-  --ip 192.168.10.1/24
+  --ip 10.42.10.1/24
 
 # Create another VLAN network
 pvesh create /cluster/network/network \
@@ -186,7 +186,7 @@ pvesh create /cluster/network/network \
   --scheme vlan-scheme \
   --vlan-id 20 \
   --ipam-mode static \
-  --ip 192.168.20.1/24
+  --ip 10.42.20.1/24
 ```
 
 ---
@@ -274,8 +274,8 @@ pvesh create /cluster/network/firewall \
   --zone production \
   --rule 100 \
   --action accept \
-  --source 192.168.10.0/24 \
-  --dest 192.168.20.0/24
+  --source 10.42.10.0/24 \
+  --dest 10.42.20.0/24
 ```
 
 ---
@@ -305,8 +305,8 @@ pvesh get /cluster/network/conflicts
 
 # Test network connectivity
 # From VM, test connectivity
-ping -c 4 192.168.10.1
-ping -c 4 192.168.20.1
+ping -c 4 10.42.10.1
+ping -c 4 10.42.20.1
 
 # Check SDN logs
 journalctl -u pvedaemon | grep -i sdn
@@ -336,9 +336,9 @@ cat > /root/sdn_documentation.md << 'EOF'
 ## Networks
 | Name | Type | Subnet | Gateway |
 |------|------|--------|-------|
-| vmbr0 | Bridge | 192.168.1.0/24 | 192.168.1.1 |
-| vlan10 | VLAN | 192.168.10.0/24 | 192.168.10.1 |
-| vlan20 | VLAN | 192.168.20.0/24 | 192.168.20.1 |
+| vmbr0 | Bridge | 10.42.1.0/24 | 10.42.1.1 |
+| vlan10 | VLAN | 10.42.10.0/24 | 10.42.10.1 |
+| vlan20 | VLAN | 10.42.20.0/24 | 10.42.20.1 |
 EOF
 
 # 2. Use consistent naming

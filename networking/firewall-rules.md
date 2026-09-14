@@ -85,7 +85,7 @@ pvesh create /firewall/rules \
   --ruleid 100 \
   --action accept \
   --name "Allow-SSH" \
-  --source 192.168.1.0/24 \
+  --source 10.42.1.0/24 \
   --dest-port 22 \
   --proto tcp
 
@@ -169,7 +169,7 @@ pvesh create /firewall/rules \
   --type host \
   --dest-port 22 \
   --proto tcp \
-  --source 192.168.1.0/24
+  --source 10.42.1.0/24
 
 # Allow HTTP/HTTPS to host
 pvesh create /firewall/rules \
@@ -196,16 +196,16 @@ pvesh create /firewall/rules \
   --ruleid 100 \
   --action accept \
   --type network \
-  --source 192.168.10.0/24 \
-  --dest 192.168.20.0/24
+  --source 10.42.10.0/24 \
+  --dest 10.42.20.0/24
 
 # Block traffic between VLANs
 pvesh create /firewall/rules \
   --ruleid 200 \
   --action drop \
   --type network \
-  --source 192.168.30.0/24 \
-  --dest 192.168.40.0/24
+  --source 10.42.30.0/24 \
+  --dest 10.42.40.0/24
 
 # Allow DNS traffic
 pvesh create /firewall/rules \
@@ -232,7 +232,7 @@ pvesh get /firewall/rules
 # 3. First matching rule wins
 
 # Example rule ordering:
-# Rule 100: Accept SSH from 192.168.1.0/24 (highest priority)
+# Rule 100: Accept SSH from 10.42.1.0/24 (highest priority)
 # Rule 200: Accept HTTP/HTTPS from any
 # Rule 300: Drop all other traffic (lowest priority)
 
@@ -261,7 +261,7 @@ pvesh create /firewall/rules \
   --action accept \
   --type guest \
   --guest 100 \
-  --source 192.168.1.0/24 \
+  --source 10.42.1.0/24 \
   --dest-port 22 \
   --proto tcp \
   --name "Allow-SSH-Management"
@@ -307,7 +307,7 @@ pvesh create /firewall/rules \
   --action accept \
   --type guest \
   --guest 200 \
-  --source 192.168.20.0/24 \
+  --source 10.42.20.0/24 \
   --dest-port 3306 \
   --proto tcp \
   --name "Allow-MySQL-App"
@@ -318,7 +318,7 @@ pvesh create /firewall/rules \
   --action accept \
   --type guest \
   --guest 200 \
-  --source 192.168.1.0/24 \
+  --source 10.42.1.0/24 \
   --dest-port 22 \
   --proto tcp \
   --name "Allow-SSH-Management"
@@ -364,7 +364,7 @@ pvesh create /firewall/rules \
   --action accept \
   --type guest \
   --guest 300 \
-  --source 192.168.1.0/24 \
+  --source 10.42.1.0/24 \
   --dest-port 22 \
   --proto tcp \
   --name "Allow-SSH-Management"
@@ -402,8 +402,8 @@ journalctl -u pve-firewall -f
 
 # Test connectivity
 # From VM, test if port is accessible
-nc -zv 192.168.1.100 22
-nc -zv 192.168.1.100 80
+nc -zv 10.42.1.100 22
+nc -zv 10.42.1.100 80
 
 # Check if rule is matching
 pvesh get /firewall/log
@@ -430,7 +430,7 @@ pvesh create /firewall/rules \
   --ruleid 100 \
   --action accept \
   --name "Allow-SSH-From-Management-Network" \
-  --source 192.168.1.0/24 \
+  --source 10.42.1.0/24 \
   --dest-port 22
 
 # 3. Document all rules
@@ -440,7 +440,7 @@ cat > /root/firewall_documentation.md << 'EOF'
 ## VM 100 (Web Server)
 | Rule ID | Action | Source | Dest Port | Protocol | Name |
 |-----|------|--------|-----|---|------|
-| 100 | Accept | 192.168.1.0/24 | 22 | tcp | Allow-SSH-Management |
+| 100 | Accept | 10.42.1.0/24 | 22 | tcp | Allow-SSH-Management |
 | 101 | Accept | Any | 80 | tcp | Allow-HTTP |
 | 102 | Accept | Any | 443 | tcp | Allow-HTTPS |
 | 999 | Drop | Any | Any | Any | Default-Drop |
@@ -448,8 +448,8 @@ cat > /root/firewall_documentation.md << 'EOF'
 ## VM 200 (Database)
 | Rule ID | Action | Source | Dest Port | Protocol | Name |
 |-----|------|--------|-----|---|------|
-| 100 | Accept | 192.168.20.0/24 | 3306 | tcp | Allow-MySQL-App |
-| 101 | Accept | 192.168.1.0/24 | 22 | tcp | Allow-SSH-Management |
+| 100 | Accept | 10.42.20.0/24 | 3306 | tcp | Allow-MySQL-App |
+| 101 | Accept | 10.42.1.0/24 | 22 | tcp | Allow-SSH-Management |
 | 999 | Drop | Any | Any | Any | Default-Drop |
 EOF
 

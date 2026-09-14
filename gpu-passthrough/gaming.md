@@ -251,7 +251,7 @@ systemctl restart networking
 #    - Large Send Offload: Disabled
 
 # Test network latency
-# ping -t 192.168.1.1  # From Windows VM
+# ping -t 10.42.1.1  # From Windows VM
 ```
 
 > **⚠️ PITFALL**: Disabling features can reduce stability.

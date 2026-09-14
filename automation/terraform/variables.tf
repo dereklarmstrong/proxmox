@@ -106,7 +106,7 @@ variable "default_bridge" {
 variable "gateway_ip" {
   description = "Default gateway IP"
   type        = string
-  default     = "192.168.1.1"
+  default     = "10.42.1.1"
 }
 
 variable "enable_firewall" {
@@ -157,7 +157,7 @@ variable "webserver_vlan" {
 variable "webserver_ip" {
   description = "Static IP address for web servers"
   type        = string
-  default     = "192.168.1.100"
+  default     = "10.42.1.100"
 }
 
 variable "webserver_balloon" {
@@ -208,7 +208,7 @@ variable "database_vlan" {
 variable "database_ip" {
   description = "Static IP address for database servers"
   type        = string
-  default     = "192.168.1.200"
+  default     = "10.42.1.200"
 }
 
 # =============================================================================

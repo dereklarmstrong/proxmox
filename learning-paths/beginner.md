@@ -110,7 +110,7 @@ ip addr show
 ip route show
 
 # 2. Configure static IP for VM
-qm set 100 --net0 virtio,bridge=vmbr0,ip=192.168.1.100/24,gw=192.168.1.1
+qm set 100 --net0 virtio,bridge=vmbr0,ip=10.42.1.100/24,gw=10.42.1.1
 
 # 3. Enable firewall
 pve-firewall enable

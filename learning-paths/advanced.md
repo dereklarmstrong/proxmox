@@ -166,7 +166,7 @@ ansible-galaxy collection install community.general
 # 3. Create inventory
 cat > inventory.ini << 'EOF'
 [proxmox_nodes]
-pve ansible_host=192.168.1.100
+pve ansible_host=10.42.1.100
 
 [proxmox_nodes:vars]
 ansible_user=root
@@ -181,7 +181,7 @@ cat > playbooks/deploy_vm.yml << 'EOF'
   gather_facts: no
   
   vars:
-    proxmox_api_host: "192.168.1.100"
+    proxmox_api_host: "10.42.1.100"
     proxmox_api_user: "root@pam"
     proxmox_api_token_id: "terraform"
     proxmox_api_token_secret: "{{ lookup('env', 'PROXMOX_API_TOKEN') }}"
@@ -367,7 +367,7 @@ pvesh create /firewall/options --enabled 1
 pvesh create /firewall/rules \
   --ruleid 100 \
   --action accept \
-  --source 192.168.1.0/24 \
+  --source 10.42.1.0/24 \
   --dest-port 22 \
   --proto tcp \
   --name "Allow-SSH-Management"

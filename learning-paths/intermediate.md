@@ -85,13 +85,13 @@ cat >> /etc/network/interfaces << 'EOF'
 
 auto vlan10
 iface vlan10 inet static
-    address 192.168.10.1
+    address 10.42.10.1
     netmask 255.255.255.0
     vlan-raw-device vmbr0
 
 auto vlan20
 iface vlan20 inet static
-    address 192.168.20.1
+    address 10.42.20.1
     netmask 255.255.255.0
     vlan-raw-device vmbr0
 EOF
@@ -104,8 +104,8 @@ sysctl -p
 pvesh create /firewall/rules \
   --ruleid 100 \
   --action accept \
-  --source 192.168.10.0/24 \
-  --dest 192.168.20.0/24 \
+  --source 10.42.10.0/24 \
+  --dest 10.42.20.0/24 \
   --name "Allow-VLAN10-to-VLAN20"
 ```
 
