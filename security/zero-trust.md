@@ -388,7 +388,7 @@ DATE=$(date +%Y%m%d)
 echo "[$(date)] Network Anomaly Check" >> $LOG_FILE
 
 # Check for unusual outbound connections
-UNUSUAL_OUTBOUND=$(netstat -tulpn 2>/dev/null | grep ESTABLISHED | grep -v "192.168" | wc -l)
+UNUSUAL_OUTBOUND=$(netstat -tulpn 2>/dev/null | grep ESTABLISHED | grep -v "10.42" | wc -l)
 if [ "$UNUSUAL_OUTBOUND" -gt 5 ]; then
     echo "ALERT: Unusual outbound connections: $UNUSUAL_OUTBOUND" >> $LOG_FILE
 fi
