@@ -19,7 +19,7 @@ Edit `config.sh` with your environment settings:
 
 ```bash
 # Proxmox connection
-PROXMOX_HOST="192.168.1.3"
+PROXMOX_HOST="10.42.1.3"
 PROXMOX_USER="root@pam"
 
 # API token auth (recommended)

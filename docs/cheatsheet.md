@@ -12,7 +12,7 @@
 - Destroy VM: `qm destroy <id>`
 
 ### Cloud-init
-- Configure: `qm set <id> --ciuser ubuntu --sshkey ~/.ssh/id_rsa.pub --ipconfig0 ip=192.168.1.50/24,gw=192.168.1.1`
+- Configure: `qm set <id> --ciuser ubuntu --sshkey ~/.ssh/id_rsa.pub --ipconfig0 ip=10.42.1.50/24,gw=10.42.1.1`
 - Set password: `qm set <id> --cipassword <password>`
 - Set nameserver: `qm set <id> --nameserver 8.8.8.8`
 
@@ -48,7 +48,7 @@
 - View config: `pct config <id>`
 - Set CPU: `pct set <id> --cpuunits 1024`
 - Set memory: `pct set <id> --memory 1024 --swap 512`
-- Set network: `pct set <id> --net0 name=eth0,bridge=vmbr0,ip=192.168.1.50/24,gw=192.168.1.1`
+- Set network: `pct set <id> --net0 name=eth0,bridge=vmbr0,ip=10.42.1.50/24,gw=10.42.1.1`
 
 ### Export/Import
 - Export: `pct export <id> <backup-file>`

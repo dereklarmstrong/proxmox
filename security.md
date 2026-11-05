@@ -260,7 +260,7 @@ net0: vlan=30,bridge=vmbr0,firewall=1    # Containers
 net0: vlan=40,bridge=vmbr0,firewall=1    # Guest network
 
 # Firewall rules for zero trust
-pvesh create /firewall/rules --ruleid 200 --action accept --source 192.168.1.0/24 --dest-port 22
+pvesh create /firewall/rules --ruleid 200 --action accept --source 10.42.1.0/24 --dest-port 22
 pvesh create /firewall/rules --ruleid 201 --action drop --type guest
 ```
 

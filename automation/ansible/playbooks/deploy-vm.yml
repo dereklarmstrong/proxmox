@@ -13,7 +13,7 @@
   
   vars:
     # Proxmox API Configuration
-    proxmox_api_host: "192.168.1.100"
+    proxmox_api_host: "10.42.1.100"
     proxmox_api_user: "root@pam"
     proxmox_api_token_id: "terraform"
     proxmox_api_token_secret: "{{ lookup('env', 'PROXMOX_API_TOKEN') }}"
@@ -24,7 +24,7 @@
     
     # Network Configuration
     default_bridge: "vmbr0"
-    gateway_ip: "192.168.1.1"
+    gateway_ip: "10.42.1.1"
     
     # VM Count and Start ID
     vm_count: 2

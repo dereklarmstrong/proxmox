@@ -303,25 +303,25 @@ server {
     server_name homelab.local;
 
     location /pihole {
-        proxy_pass http://192.168.10.100;
+        proxy_pass http://10.42.10.100;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
 
     location /portainer {
-        proxy_pass http://192.168.10.101:9443;
+        proxy_pass http://10.42.10.101:9443;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
 
     location /homeassistant {
-        proxy_pass http://192.168.10.102:8123;
+        proxy_pass http://10.42.10.102:8123;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
 
     location /jellyfin {
-        proxy_pass http://192.168.10.103:8096;
+        proxy_pass http://10.42.10.103:8096;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
@@ -509,8 +509,8 @@ pct create 101 local:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst \
 # Configure load balancing with nginx
 cat > /etc/nginx/sites-available/loadbalance << 'EOF'
 upstream services {
-    server 192.168.10.100:8080;
-    server 192.168.10.101:8080 backup;
+    server 10.42.10.100:8080;
+    server 10.42.10.101:8080 backup;
 }
 
 server {

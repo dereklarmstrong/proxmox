@@ -120,28 +120,28 @@ cat > /root/zero-trust-vlans.conf << 'EOF'
 # Zero Trust VLAN Configuration
 # Management VLAN
 VLAN_MGMT=10
-VLAN_MGMT_SUBNET=192.168.10.0/24
-VLAN_MGMT_GATEWAY=192.168.10.1
+VLAN_MGMT_SUBNET=10.42.10.0/24
+VLAN_MGMT_GATEWAY=10.42.10.1
 
 # VM VLAN
 VLAN_VM=20
-VLAN_VM_SUBNET=192.168.20.0/24
-VLAN_VM_GATEWAY=192.168.20.1
+VLAN_VM_SUBNET=10.42.20.0/24
+VLAN_VM_GATEWAY=10.42.20.1
 
 # Container VLAN
 VLAN_CONTAINER=30
-VLAN_CONTAINER_SUBNET=192.168.30.0/24
-VLAN_CONTAINER_GATEWAY=192.168.30.1
+VLAN_CONTAINER_SUBNET=10.42.30.0/24
+VLAN_CONTAINER_GATEWAY=10.42.30.1
 
 # Database VLAN
 VLAN_DATABASE=40
-VLAN_DATABASE_SUBNET=192.168.40.0/24
-VLAN_DATABASE_GATEWAY=192.168.40.1
+VLAN_DATABASE_SUBNET=10.42.40.0/24
+VLAN_DATABASE_GATEWAY=10.42.40.1
 
 # DMZ VLAN
 VLAN_DMZ=50
-VLAN_DMZ_SUBNET=192.168.50.0/24
-VLAN_DMZ_GATEWAY=192.168.50.1
+VLAN_DMZ_SUBNET=10.42.50.0/24
+VLAN_DMZ_GATEWAY=10.42.50.1
 EOF
 
 # Source VLAN configuration
@@ -172,7 +172,7 @@ qm create 300 --name container-host --memory 2048 --cores 2 \
 pvesh create /firewall/rules \
   --ruleid 100 \
   --action accept \
-  --source 192.168.10.0/24 \
+  --source 10.42.10.0/24 \
   --dest-port 22,8006 \
   --proto tcp \
   --name "Allow-Mgmt-Access"
@@ -181,8 +181,8 @@ pvesh create /firewall/rules \
 pvesh create /firewall/rules \
   --ruleid 200 \
   --action accept \
-  --source 192.168.20.0/24 \
-  --dest 192.168.40.0/24 \
+  --source 10.42.20.0/24 \
+  --dest 10.42.40.0/24 \
   --dest-port 3306 \
   --proto tcp \
   --name "Allow-Web-to-DB"
@@ -388,7 +388,7 @@ DATE=$(date +%Y%m%d)
 echo "[$(date)] Network Anomaly Check" >> $LOG_FILE
 
 # Check for unusual outbound connections
-UNUSUAL_OUTBOUND=$(netstat -tulpn 2>/dev/null | grep ESTABLISHED | grep -v "192.168" | wc -l)
+UNUSUAL_OUTBOUND=$(netstat -tulpn 2>/dev/null | grep ESTABLISHED | grep -v "10.42" | wc -l)
 if [ "$UNUSUAL_OUTBOUND" -gt 5 ]; then
     echo "ALERT: Unusual outbound connections: $UNUSUAL_OUTBOUND" >> $LOG_FILE
 fi
@@ -516,7 +516,7 @@ pvesh create /firewall/rules \
   --guest 200 \
   --dest-port 22 \
   --proto tcp \
-  --source 192.168.10.0/24 \
+  --source 10.42.10.0/24 \
   --name "Allow-SSH-Management"
 
 pvesh create /firewall/rules \
@@ -541,12 +541,12 @@ module(load="imudp")
 input(type="imudp" port="514")
 
 # Forward auth logs
-:msg, contains, "sshd" @@192.168.10.1:514
-:msg, contains, "sudo" @@192.168.10.1:514
-:msg, contains, "pam" @@192.168.10.1:514
+:msg, contains, "sshd" @@10.42.10.1:514
+:msg, contains, "sudo" @@10.42.10.1:514
+:msg, contains, "pam" @@10.42.10.1:514
 
 # Forward system logs
-*.* @@192.168.10.1:514
+*.* @@10.42.10.1:514
 EOF
 
 # Restart rsyslog

@@ -21,7 +21,7 @@ Usage: $(basename "$0") -i <ctid> -n <name> -t <template> [options]
   -s <storage>  Storage (default: $DEFAULT_STORAGE)
   -r <size>     Rootfs size (e.g. 8G, default: 8G)
   -b <bridge>   Bridge (default: $DEFAULT_BRIDGE)
-  -u <cidr>     Static IP (e.g. 192.168.1.60/24); omit for DHCP
+  -u <cidr>     Static IP (e.g. 10.42.1.60/24); omit for DHCP
   -g <gw>       Gateway (optional if -u set)
   -k <sshkey>   SSH public key path (optional)
   -h            Help

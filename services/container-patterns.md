@@ -90,7 +90,7 @@ pct create 100 local:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst \
   -cores 2 \
   -memory 1024 \
   -swap 512 \
-  -net0 name=eth0,bridge=vmbr0,firewall=1,ip=192.168.1.100/24,gw=192.168.1.1 \
+  -net0 name=eth0,bridge=vmbr0,firewall=1,ip=10.42.1.100/24,gw=10.42.1.1 \
   -unprivileged 1
 
 # Configure network inside container
@@ -101,9 +101,9 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet static
-    address 192.168.1.100
+    address 10.42.1.100
     netmask 255.255.255.0
-    gateway 192.168.1.1
+    gateway 10.42.1.1
     dns-nameservers 8.8.8.8 8.8.4.4
 EOF
 
@@ -171,9 +171,9 @@ iface lo inet loopback
 
 auto eth0.10
 iface eth0.10 inet static
-    address 192.168.10.100
+    address 10.42.10.100
     netmask 255.255.255.0
-    gateway 192.168.10.1
+    gateway 10.42.10.1
 EOF
 
 # Install vlan package
@@ -181,7 +181,7 @@ apt install -y vlan
 
 # Configure VLAN
 vconfig add eth0 10
-ip addr add 192.168.10.100/24 dev eth0.10
+ip addr add 10.42.10.100/24 dev eth0.10
 ip link set eth0.10 up
 ```
 
@@ -294,7 +294,7 @@ pvesh create /firewall/rules \
   --guest 100 \
   --dest-port 22 \
   --proto tcp \
-  --source 192.168.1.0/24 \
+  --source 10.42.1.0/24 \
   --name "Allow-SSH-Management"
 
 pvesh create /firewall/rules \

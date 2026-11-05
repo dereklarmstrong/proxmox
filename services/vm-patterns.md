@@ -48,7 +48,7 @@ qm create 100 --name webserver --memory 2048 --cores 2 --cpu host \
 
 # Configure VM after installation
 qm set 100 --cpu host --cores 2 --memory 2048
-qm set 100 --net0 virtio,bridge=vmbr0,firewall=1,ip=192.168.1.100/24,gw=192.168.1.1
+qm set 100 --net0 virtio,bridge=vmbr0,firewall=1,ip=10.42.1.100/24,gw=10.42.1.1
 qm set 100 --balloon 0
 
 # Install QEMU guest agent
@@ -79,7 +79,7 @@ qm create 200 --name database --memory 8192 --cores 4 --cpu host \
 
 # Configure VM after installation
 qm set 200 --cpu host --cores 4 --memory 8192 --balloon 0
-qm set 200 --net0 virtio,bridge=vmbr0,firewall=1,ip=192.168.1.200/24,gw=192.168.1.1
+qm set 200 --net0 virtio,bridge=vmbr0,firewall=1,ip=10.42.1.200/24,gw=10.42.1.1
 qm set 200 --agent 1
 
 # Enable I/O threading for database performance
@@ -91,7 +91,7 @@ pvesh create /firewall/rules \
   --action accept \
   --type guest \
   --guest 200 \
-  --source 192.168.1.0/24 \
+  --source 10.42.1.0/24 \
   --dest-port 3306,5432 \
   --proto tcp \
   --name "Allow-Database-App"
@@ -118,7 +118,7 @@ qm create 300 --name appserver --memory 4096 --cores 4 --cpu host \
 
 # Configure VM after installation
 qm set 300 --cpu host --cores 4 --memory 4096 --balloon 0
-qm set 300 --net0 virtio,bridge=vmbr0,firewall=1,ip=192.168.1.300/24,gw=192.168.1.1
+qm set 300 --net0 virtio,bridge=vmbr0,firewall=1,ip=10.42.1.300/24,gw=10.42.1.1
 qm set 300 --agent 1
 
 # Configure for Docker
@@ -151,7 +151,7 @@ qm create 400 --name fileserver --memory 4096 --cores 2 --cpu host \
 
 # Configure VM after installation
 qm set 400 --cpu host --cores 2 --memory 4096 --balloon 0
-qm set 400 --net0 virtio,bridge=vmbr0,firewall=1,ip=192.168.1.400/24,gw=192.168.1.1
+qm set 400 --net0 virtio,bridge=vmbr0,firewall=1,ip=10.42.1.400/24,gw=10.42.1.1
 qm set 400 --agent 1
 
 # Inside VM - Setup Samba/NFS
@@ -204,7 +204,7 @@ qm create 500 --name proxy --memory 2048 --cores 2 --cpu host \
 
 # Configure VM after installation
 qm set 500 --cpu host --cores 2 --memory 2048 --balloon 0
-qm set 500 --net0 virtio,bridge=vmbr0,firewall=1,ip=192.168.1.500/24,gw=192.168.1.1
+qm set 500 --net0 virtio,bridge=vmbr0,firewall=1,ip=10.42.1.500/24,gw=10.42.1.1
 qm set 500 --net1 virtio,bridge=vmbr0,firewall=1,ip=10.0.0.1/24
 qm set 500 --agent 1
 
@@ -218,14 +218,14 @@ server {
     server_name proxy.local;
 
     location / {
-        proxy_pass http://192.168.1.100;
+        proxy_pass http://10.42.1.100;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
     location /api {
-        proxy_pass http://192.168.1.200:8080;
+        proxy_pass http://10.42.1.200:8080;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
@@ -261,7 +261,7 @@ qm create 9999 --name cloud-init-template --memory 2048 --cores 2 \
 
 # Configure cloud-init
 qm set 9999 --ciuser admin --sshkey ~/.ssh/id_rsa.pub
-qm set 9999 --ipconfig0 ip=192.168.1.50/24,gw=192.168.1.1
+qm set 9999 --ipconfig0 ip=10.42.1.50/24,gw=10.42.1.1
 qm template 9999
 
 # Clone cloud-init template

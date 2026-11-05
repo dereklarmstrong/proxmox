@@ -192,19 +192,19 @@ cat >> /etc/network/interfaces << 'EOF'
 # VLAN interfaces for routing
 auto vlan10
 iface vlan10 inet static
-    address 192.168.10.1
+    address 10.42.10.1
     netmask 255.255.255.0
     vlan-raw-device vmbr0
 
 auto vlan20
 iface vlan20 inet static
-    address 192.168.20.1
+    address 10.42.20.1
     netmask 255.255.255.0
     vlan-raw-device vmbr0
 
 auto vlan30
 iface vlan30 inet static
-    address 192.168.30.1
+    address 10.42.30.1
     netmask 255.255.255.0
     vlan-raw-device vmbr0
 EOF
@@ -219,15 +219,15 @@ pvesh create /firewall/options --enabled 1
 pvesh create /firewall/rules \
   --ruleid 100 \
   --action accept \
-  --source 192.168.10.0/24 \
-  --dest 192.168.20.0/24 \
+  --source 10.42.10.0/24 \
+  --dest 10.42.20.0/24 \
   --name "Allow-VLAN10-to-VLAN20"
 
 pvesh create /firewall/rules \
   --ruleid 101 \
   --action accept \
-  --source 192.168.20.0/24 \
-  --dest 192.168.10.0/24 \
+  --source 10.42.20.0/24 \
+  --dest 10.42.10.0/24 \
   --name "Allow-VLAN20-to-VLAN10"
 ```
 
@@ -239,16 +239,16 @@ pvesh create /firewall/rules \
 
 ```bash
 # Configure VMs with gateway pointing to external router
-qm set 100 --net0 vlan=10,bridge=vmbr0,firewall=1,ip=192.168.10.100/24,gw=192.168.10.1
+qm set 100 --net0 vlan=10,bridge=vmbr0,firewall=1,ip=10.42.10.100/24,gw=10.42.10.1
 
 # Configure router (example: pfSense)
 # Interface: VLAN10
-# IP: 192.168.10.1/24
-# DHCP: 192.168.10.100-192.168.10.200
+# IP: 10.42.10.1/24
+# DHCP: 10.42.10.100-10.42.10.200
 
 # Interface: VLAN20
-# IP: 192.168.20.1/24
-# DHCP: 192.168.20.100-192.168.20.200
+# IP: 10.42.20.1/24
+# DHCP: 10.42.20.100-10.42.20.200
 
 # Firewall rules on router
 # Allow VLAN10 to VLAN20
@@ -277,7 +277,7 @@ pvesh create /firewall/rules \
 pvesh create /firewall/rules \
   --ruleid 100 \
   --action accept \
-  --source 192.168.10.0/24 \
+  --source 10.42.10.0/24 \
   --dest-port 22 \
   --proto tcp \
   --name "Allow-SSH-Management"
@@ -285,8 +285,8 @@ pvesh create /firewall/rules \
 pvesh create /firewall/rules \
   --ruleid 101 \
   --action accept \
-  --source 192.168.20.0/24 \
-  --dest 192.168.10.0/24 \
+  --source 10.42.20.0/24 \
+  --dest 10.42.10.0/24 \
   --dest-port 80,443 \
   --proto tcp \
   --name "Allow-Web-Access"
@@ -312,12 +312,12 @@ tcpdump -i vmbr0 -n vlan
 
 # Test connectivity between VLANs
 # From VM in VLAN10
-ping 192.168.20.1
-ping 192.168.20.100
+ping 10.42.20.1
+ping 10.42.20.100
 
 # From VM in VLAN20
-ping 192.168.10.1
-ping 192.168.10.100
+ping 10.42.10.1
+ping 10.42.10.100
 
 # Check firewall rules
 pvesh get /firewall/rules
@@ -349,11 +349,11 @@ cat > /root/vlan_documentation.md << 'EOF'
 
 | VLAN ID | Name | Purpose | Subnet | Gateway |
 |-----|------|---------|--------|---------|
-| 10 | Management | Proxmox management | 192.168.10.0/24 | 192.168.10.1 |
-| 20 | VMs | VM network | 192.168.20.0/24 | 192.168.20.1 |
-| 30 | Containers | LXC network | 192.168.30.0/24 | 192.168.30.1 |
-| 40 | Storage | iSCSI/NFS | 192.168.40.0/24 | 192.168.40.1 |
-| 50 | Guest | Guest network | 192.168.50.0/24 | 192.168.50.1 |
+| 10 | Management | Proxmox management | 10.42.10.0/24 | 10.42.10.1 |
+| 20 | VMs | VM network | 10.42.20.0/24 | 10.42.20.1 |
+| 30 | Containers | LXC network | 10.42.30.0/24 | 10.42.30.1 |
+| 40 | Storage | iSCSI/NFS | 10.42.40.0/24 | 10.42.40.1 |
+| 50 | Guest | Guest network | 10.42.50.0/24 | 10.42.50.1 |
 EOF
 
 # 3. Use descriptive names
