@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 # Minimal wrapper for Proxmox API requests using API token auth
 
-set -o errexit
-set -o pipefail
-set -o nounset
+set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/../../lib/common.sh"
